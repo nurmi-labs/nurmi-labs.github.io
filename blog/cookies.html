@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Cookies</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<h2>Cookies</h2>
+Dette website anvender cookies fra Google til at levere dets
+tjenester og analysere trafik. Din IP-adresse og brugeragent deles
+med Google sammen med effektivitets- og sikkerhedsmetrics. Dette
+sker for at sikre tjeneste-kvaliteten, generere brugs-statistik og
+registrere og håndtere misbrug.<br>
+<br>
+Google <a href=
+"https://support.google.com/blogger/answer/6253244?hl=en" target=
+"_blank">states</a> it added the above notice, citing Google
+Analytics and AdSense, to this log as a courtesy to help meet EU
+Cookies notification regulations.<br>
+<br>
+Using <a href="http://lynx.invisible-island.net/" target=
+"_blank">Lynx</a> on GNU/Linux, e.g., in uxterm 'lynx
+-display-charset=utf-8 URL' does not indicate any attempt to load
+cookies; though I must admit I have never enabled Google Analytics
+nor monetised this log.<br>
+<br>
+It seems a bit ironic that loading this log in Dk doesn't result in
+cookie storage on a computer but loading https://www.google.dk/
+does, yet the notice appears in graphics capable browsers when
+loading the former and not the latter.<br>
+<br>
+No cookies are stored on a PC when loading this log,<br>
+loading https://www.google.dk/ however stores 1P_JAR<br>
+and&nbsp;NID.<br>
+<br>
+sh-4.2$ date<br>
+Mon May 28 02:09:41 CEST 2018<br>
+sh-4.2$ firefox -v<br>
+Mozilla Firefox 15.0.1<br>
+sh-4.2$ rm -r .mozilla<br>
+sh-4.2$ firefox https://nurmi-labs.blogspot.dk/ &amp;<br>
+[1] 3351<br>
+sh-4.2$ ls .mozilla/firefox<br>
+f0kqhinl.default &nbsp;profiles.ini<br>
+sh-4.2$ cp .mozilla/firefox/f0kqhinl.default/cookies.sqlite
+/tmp<br>
+sh-4.2$ sqlite3 /tmp/cookies.sqlite<br>
+SQLite version 3.7.13 2012-06-11 02:05:22<br>
+Enter ".help" for instructions<br>
+Enter SQL statements terminated with a ";"<br>
+sqlite&gt; .header on<br>
+sqlite&gt; .mode csv<br>
+sqlite&gt; .output cookies.csv<br>
+sqlite&gt; SELECT * FROM moz_cookies;<br>
+sqlite&gt; .quit<br>
+sh-4.2$ file cookies.csv<br>
+cookies.csv: empty<br>
+sh-4.2$ kill 3351<br>
+sh-4.2$ rm cookies.csv<br>
+[1]+&nbsp; Terminated&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; firefox https://nurmi-labs.blogspot.dk/<br>
+sh-4.2$ rm /tmp/cookies.sqlite<br>
+sh-4.2$<br>
+<br>
+sh-4.2$ rm -r .mozilla<br>
+sh-4.2$ firefox https://www.google.dk/ &amp;<br>
+[1] 3490<br>
+sh-4.2$ ls .mozilla/firefox<br>
+profiles.ini&nbsp; vz5iwu88.default<br>
+sh-4.2$ cp .mozilla/firefox/vz5iwu88.default/cookies.sqlite
+/tmp<br>
+sh-4.2$ sqlite3 /tmp/cookies.sqlite<br>
+SQLite version 3.7.13 2012-06-11 02:05:22<br>
+Enter ".help" for instructions<br>
+Enter SQL statements terminated with a ";"<br>
+sqlite&gt; .header on<br>
+sqlite&gt; .mode csv<br>
+sqlite&gt; .output cookies.csv<br>
+sqlite&gt; SELECT * FROM moz_cookies;<br>
+sqlite&gt; .quit<br>
+sh-4.2$ file cookies.csv<br>
+cookies.csv: ASCII text<br>
+sh-4.2$ kill 3490<br>
+sh-4.2$ rm cookies.csv<br>
+[1]+ &nbsp;Terminated&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; firefox https://www.google.dk/<br>
+sh-4.2$ rm /tmp/cookies.sqlite<br>
+sh-4.2$ exit
+</body>
+</html>
