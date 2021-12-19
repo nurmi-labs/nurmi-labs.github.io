@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>PQ(1)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+PQ(1) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; General Commands Manual&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PQ(1)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq, pqgen, pqsrv - PQ IRDB directory
+access<br>
+<br>
+SYNOPSIS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq -o format [ -a attrs ] [ -m modules ]
+[ -s seps ] [ -d debug ] query<br>
+&nbsp; &nbsp; &nbsp; &nbsp;...<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pqgen [ directory ]<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pqsrv [ modules ]<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Pq connects to an Implicit
+Relational&nbsp; Database&nbsp; (IRDB)&nbsp; directory&nbsp;
+and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;outputs&nbsp; the&nbsp; record(s)&nbsp;
+that match the query arguments.&nbsp; The directory<br>
+&nbsp; &nbsp; &nbsp; &nbsp;contacted may be specified by a modules
+argument (see dispatch(7)).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Each query argument results in an
+independent query of&nbsp; the&nbsp; directory,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;consisting&nbsp; of a set of input
+attributes, obtained from the query argu-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ment, and a set of output attributes,
+obtained from the&nbsp; output&nbsp; format<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(see&nbsp; the&nbsp; -o&nbsp;
+option).&nbsp; The&nbsp; output&nbsp; of all the queries are
+formatted<br>
+&nbsp; &nbsp; &nbsp; &nbsp;according to the output format and
+concatenated on standard output.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Each query argument is a list of strings
+of&nbsp; the&nbsp; form&nbsp; attribute=value<br>
+&nbsp; &nbsp; &nbsp; &nbsp;separated&nbsp; by any number of
+separator characters (default is |, but can<br>
+&nbsp; &nbsp; &nbsp; &nbsp;be changed via the -s option).&nbsp; The
+string attribute= may be elided, in<br>
+&nbsp; &nbsp; &nbsp; &nbsp;which&nbsp; case the attribute name is
+taken from the corresponding token in<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the -a option.&nbsp; It is an error if
+there is no&nbsp; corresponding&nbsp; attribute<br>
+&nbsp; &nbsp; &nbsp; &nbsp;name. &nbsp; The&nbsp; query&nbsp;
+argument may be the empty string; in this case, all<br>
+&nbsp; &nbsp; &nbsp; &nbsp;records that contain the output
+attributes are returned. &nbsp; The&nbsp; options<br>
+&nbsp; &nbsp; &nbsp; &nbsp;are:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-m modules<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Contact&nbsp; the
+directory specified by the modules string; the for-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mat is described
+in dispatch(7).&nbsp; The default value for&nbsp; modules<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; is the empty
+string.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-s seps<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Set&nbsp; the
+separator character list for delimiting tokens in query<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; arguments and the
+-a option string; |, is the default.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-o format<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Use the output
+format specified.&nbsp; See below for a full&nbsp; descrip-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tion.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-a attrs<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Set the default
+attribute names for query components that do not<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; specify them.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-d debug<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Print information
+regarding&nbsp; internal&nbsp; operations. &nbsp; Values&nbsp;
+for<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; debug range from 1
+to 3, with 3 yielding the most detail.<br>
+<br>
+&nbsp; &nbsp;Output Formatting<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The&nbsp; format&nbsp; argument&nbsp;
+specified&nbsp; with&nbsp; the&nbsp; -o&nbsp; option&nbsp; is used
+like a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;print(2) string for formatting the
+output of&nbsp; directory&nbsp; queries. &nbsp; All<br>
+&nbsp; &nbsp; &nbsp; &nbsp;characters are copied literally, except
+for attribute substitutions and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;backslash escapes.&nbsp; Quoting may be
+necessary to prevent shell interpre-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tation.&nbsp; The syntax for attribute
+substitutions is this:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; % flags minimum .
+maximum {attribute}<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Only % and attribute are required.&nbsp;
+Curly braces, {}, are required only<br>
+&nbsp; &nbsp; &nbsp; &nbsp;when the attribute is immediately
+followed by an&nbsp; alphanumeric. &nbsp; Flags<br>
+&nbsp; &nbsp; &nbsp; &nbsp;may be one or more of the following:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- &nbsp; &nbsp; &nbsp;Right
+justify (left justification is the default).<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;^ &nbsp; &nbsp; &nbsp;Capitalize
+the first letter of each word.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;+ &nbsp; &nbsp; &nbsp;Capitalize
+all letters in the value.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt; &nbsp; &nbsp; &nbsp;If the
+value is empty, delete back to the last \&lt; or beginning<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; of
+output.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&gt; &nbsp; &nbsp; &nbsp;If the
+value is empty, skip to the next \&gt; or&nbsp; end&nbsp; of&nbsp;
+format<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; string.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Minimum is an integer giving the minimum
+field width.&nbsp; If the value has<br>
+&nbsp; &nbsp; &nbsp; &nbsp;fewer than the minimum number of
+characters, the field will&nbsp; be&nbsp; padded<br>
+&nbsp; &nbsp; &nbsp; &nbsp;with blanks.&nbsp; The default minimum
+is zero.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Maximum&nbsp; is&nbsp; an integer that
+specifies the maximum number of characters<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to be output from the value.&nbsp; If
+the value&nbsp; has&nbsp; more&nbsp; characters&nbsp; than<br>
+&nbsp; &nbsp; &nbsp; &nbsp;this &nbsp;number,&nbsp; the&nbsp;
+value&nbsp; will&nbsp; be&nbsp; truncated.&nbsp; A maximum of zero
+(the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;default) causes all characters to be
+output.&nbsp; A period is used to sepa-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;rate minimum and maximum and is only
+required if maximum is specified.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The&nbsp; following&nbsp; table&nbsp;
+lists&nbsp; backslash&nbsp; escapes that are recognized by<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq(1):<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++----------------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; Output Format Backslash Escapes &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |Escape |
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;Meaning &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \b
+&nbsp; | Backspace&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \c
+&nbsp; | Suppress terminating newline &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \f
+&nbsp; | Formfeed &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \n
+&nbsp; | Newline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |
+\ooo&nbsp; | ASCII character defined by an octal number |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \r
+&nbsp; | Carriage return&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \t
+&nbsp; | Tab&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; |<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp; \v
+&nbsp; | Vertical tab &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+|<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp;
+\&lt; &nbsp; | Marker for &lt; flag&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+|<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |&nbsp;
+\&gt; &nbsp; | Marker for &gt; flag&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+|<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
++-------+--------------------------------------------+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Pqgen is used to create index files for
+an existing IRDB&nbsp; ev(7)&nbsp; direc-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tory. &nbsp; Once&nbsp; indexed,&nbsp;
+the speed of lookups is greatly improved.&nbsp; How-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ever, it is then necessary to rerun
+pqgen after any changes are made to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the ev database.&nbsp; The directory is
+the location of the ev database.&nbsp; If<br>
+&nbsp; &nbsp; &nbsp; &nbsp;not an absolute pathname, it is
+interpreted relative to /lib/pq.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Pqsrv is the server that handles
+incoming PQ requests.&nbsp; It is meant&nbsp; to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;be&nbsp; run by listen(8), typically for
+TCP port 411.&nbsp; The optional modules<br>
+&nbsp; &nbsp; &nbsp; &nbsp;argument is the same as that to pq(1)
+above.<br>
+<br>
+EXAMPLES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Find the telephone number of employee
+with login of liz:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pq -o %telephone
+'login=liz'<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;List addresses of employees in New
+Jersey and Texas who are full-time:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pq&nbsp; &nbsp; -o
+&nbsp; &nbsp; '%20name &nbsp; &nbsp; %25addr &nbsp; &nbsp; %state
+&nbsp; &nbsp; %zip' &nbsp; &nbsp; 'sta-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+tus=FT|state=NJ|state=TX'<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Consult /sys/src/cmd/pq/example for a
+more detailed example.<br>
+<br>
+FILES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/lib/pq/dispatch &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; default dispatch file<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/rc/bin/service/tcp411 &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; typical location for pqsrv<br>
+<br>
+DIAGNOSTICS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Pq&nbsp; prints&nbsp; a diagnostic to
+the standard error and exits with status no<br>
+&nbsp; &nbsp; &nbsp; &nbsp;records if there are no matches.&nbsp;
+Otherwise, it&nbsp; returns&nbsp; a&nbsp; successful<br>
+&nbsp; &nbsp; &nbsp; &nbsp;status.<br>
+<br>
+SOURCE<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/sys/src/cmd/pq<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;<a href="/2/pq.html" target=
+"_blank">pq(2)</a>, <a href="/7/dispatch.html" target=
+"_blank">dispatch(7)</a>, <a href="/7/ev.html" target=
+"_blank">ev(7)</a>, listen(8).<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;PQ(1)
+</body>
+</html>

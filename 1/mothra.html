@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org">
+<meta http-equiv="content-type" content=
+"text/html; charset=us-ascii">
+<meta name="viewport" content="width=device-width">
+<title>MOTHRA(1)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> |
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+MOTHRA(1)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; General Commands Manual&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; MOTHRA(1)<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp; mothra - retrieve World-Wide Web
+files<br>
+<br>
+SYNOPSIS<br>
+&nbsp; &nbsp; &nbsp; mothra [ url ]<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; Mothra retrieves and displays files from the
+World-Wide Web, by name or<br>
+&nbsp; &nbsp; &nbsp; through hypertext links.&nbsp; Web names,
+called URLs, have a peculiar&nbsp; syn-<br>
+&nbsp; &nbsp; &nbsp; tax:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+http://netlib.att.com/netlib/1127/www/1127.html<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+http://akebono.stanford.edu:80/yahoo/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+http://www.teleport.com/~crowell/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+file:/sys/lib/mothra/help.html<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+file:html2.elements.html#ADDRESS<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ftp://ftp.gmd.de/music/scores/harrington/Harrington.readme<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+gopher://gopher.bev.net/11/BevBus/King.Video<br>
+<br>
+&nbsp; &nbsp; &nbsp; The&nbsp; part&nbsp; up&nbsp; to the first
+colon gives the protocol for retrieving the<br>
+&nbsp; &nbsp; &nbsp; file.&nbsp; http:, Hyper-Text Transfer
+Protocol, is the usual way of access-<br>
+&nbsp; &nbsp; &nbsp; ing&nbsp; web files.&nbsp; file: names a file
+in the local file system.&nbsp; ftp: and<br>
+&nbsp; &nbsp; &nbsp; gopher: are standard Internet services.<br>
+<br>
+&nbsp; &nbsp; &nbsp; // begins the Internet address of the server
+where&nbsp; the&nbsp; file&nbsp; resides.<br>
+&nbsp; &nbsp; &nbsp; The&nbsp; address may contain a colon and a
+TCP port number, which overrides<br>
+&nbsp; &nbsp; &nbsp; the default port number for the&nbsp; service.
+&nbsp; Next&nbsp; comes&nbsp; a&nbsp; file&nbsp; name.<br>
+&nbsp; &nbsp; &nbsp; Finally, the file name may be followed by #
+and a string giving a label<br>
+&nbsp; &nbsp; &nbsp; within the file where the display should
+begin.<br>
+<br>
+&nbsp; &nbsp; &nbsp; Mothra starts with the url given on the
+command line, defaulting to the<br>
+&nbsp; &nbsp; &nbsp; environment &nbsp; &nbsp; &nbsp; variable
+&nbsp; &nbsp; &nbsp; $url,&nbsp; &nbsp; &nbsp; and &nbsp; &nbsp;
+&nbsp; finally &nbsp; &nbsp; &nbsp; to<br>
+&nbsp; &nbsp; &nbsp; file:/sys/lib/mothra/start.html.<br>
+<br>
+&nbsp; &nbsp; &nbsp; The display contains the last message from
+mothra, a&nbsp; box&nbsp; where&nbsp; typed<br>
+&nbsp; &nbsp; &nbsp; commands&nbsp; appear,&nbsp; a&nbsp;
+scrollable&nbsp; list of previously visited files, the<br>
+&nbsp; &nbsp; &nbsp; title and URL of the current file, and the
+scrollable text of the&nbsp; cur-<br>
+&nbsp; &nbsp; &nbsp; rent file.<br>
+<br>
+&nbsp; &nbsp; &nbsp; Button&nbsp; 1&nbsp; selects&nbsp; and
+displays a file, either from the list of previ-<br>
+&nbsp; &nbsp; &nbsp; ously visited pages or from a link (indicated
+by underlined text&nbsp; or&nbsp; a<br>
+&nbsp; &nbsp; &nbsp; boxed&nbsp; image)&nbsp; in&nbsp; the current
+file.&nbsp; Button 2 shows the URL of a file,<br>
+&nbsp; &nbsp; &nbsp; but does not retrieve or display it.&nbsp;
+Button 3 pops up a menu&nbsp; of&nbsp; com-<br>
+&nbsp; &nbsp; &nbsp; mands:<br>
+<br>
+&nbsp; &nbsp; &nbsp; save back<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Place&nbsp;
+a&nbsp; link&nbsp; to&nbsp; the current file in a `back list' for
+future<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reference.<br>
+<br>
+&nbsp; &nbsp; &nbsp; get back<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Retrieve and
+display the back list.<br>
+<br>
+&nbsp; &nbsp; &nbsp; fix cmap<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjust the
+display's color map so that images will have&nbsp; correct<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; colors.<br>
+<br>
+&nbsp; &nbsp; &nbsp; exit &nbsp; Ask for confirmation and quit.<br>
+<br>
+&nbsp; &nbsp; &nbsp; The typed commands are:<br>
+<br>
+&nbsp; &nbsp; &nbsp; g url&nbsp; Get the page with the given
+URL.<br>
+<br>
+&nbsp; &nbsp; &nbsp; s file Save the current file in the given
+file.<br>
+<br>
+&nbsp; &nbsp; &nbsp; q&nbsp; &nbsp; &nbsp; Quit.<br>
+<br>
+&nbsp; &nbsp; &nbsp; ?<br>
+<br>
+&nbsp; &nbsp; &nbsp; h&nbsp; &nbsp; &nbsp; Get help.<br>
+<br>
+&nbsp; &nbsp; &nbsp; When&nbsp; mothra retrieves a file that is not
+an HTML document (for example<br>
+&nbsp; &nbsp; &nbsp; a GIF or JPEG image), it will start up an
+appropriate viewer, for exam-<br>
+&nbsp; &nbsp; &nbsp; ple fb/9v (see 9v(9.1)) for image files.<br>
+<br>
+&nbsp; &nbsp; &nbsp; To&nbsp; deal&nbsp; with&nbsp; sites&nbsp;
+that&nbsp; use&nbsp; `basic&nbsp; authentication',&nbsp; make a
+file<br>
+&nbsp; &nbsp; &nbsp; $home/lib/mothra/insecurity, containing lines
+of the form<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+security-domain&lt;tab&gt;account-name:password<br>
+<br>
+&nbsp; &nbsp; &nbsp; The method of registering an account&nbsp;
+varies&nbsp; with&nbsp; site&nbsp; and&nbsp; may&nbsp; not<br>
+&nbsp; &nbsp; &nbsp; reveal&nbsp; the&nbsp; security-domain&nbsp;
+string.&nbsp; To learn the name, summon a pro-<br>
+&nbsp; &nbsp; &nbsp; tected page and get the name from the
+resulting error message.<br>
+<br>
+FILES<br>
+&nbsp; &nbsp; &nbsp; /sys/lib/mothra/*<br>
+&nbsp; &nbsp; &nbsp; $home/lib/mothra/back.html the back list<br>
+&nbsp; &nbsp; &nbsp; $home/lib/mothra/mothra.url log of visited
+URLs<br>
+&nbsp; &nbsp; &nbsp; $home/lib/mothra/mothra.err log of error
+messages, including HTML&nbsp; syn-<br>
+&nbsp; &nbsp; &nbsp; tax errors<br>
+&nbsp; &nbsp; &nbsp; $home/lib/mothra/insecurity authentication
+data<br>
+<br>
+SOURCE<br>
+&nbsp; &nbsp; &nbsp; /sys/src/cmd/mothra<br>
+<br>
+BUGS<br>
+&nbsp; &nbsp; &nbsp; ftp: URLs are not supported.<br>
+&nbsp; &nbsp; &nbsp; Files&nbsp; are saved in the form received,
+not in the form suggested by the<br>
+&nbsp; &nbsp; &nbsp; name in an s command.<br>
+&nbsp; &nbsp; &nbsp; Mothra is distributed in a preliminary
+state;&nbsp; it&nbsp; has&nbsp; more&nbsp; than&nbsp; its<br>
+&nbsp; &nbsp; &nbsp; share of bugs.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; MOTHRA(1)
+</body>
+</html>
