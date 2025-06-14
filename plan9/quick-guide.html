@@ -1,0 +1,489 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>QUICK_GUIDE</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<h2>QUICK_GUIDE</h2>
+-------------<br>
+<br>
+Kirara1 (ver 1.5)<br>
+Kirara2 (ver 2.2)<br>
+<br>
+look<br>
+&nbsp; &nbsp; &nbsp; &nbsp; http://plan9.aichi-u.ac.jp/netlib/<br>
+for new version or bug fix version.<br>
+<br>
+-------------<br>
+<br>
+Kirara is a desktop search engine for Plan 9.<br>
+<br>
+Indexing and search target:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; - alphanumeric words in Latin text
+including English, German, and etc.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; - alphabetic words in Greek, Coptic,
+Cyrillic, Armenian<br>
+&nbsp; &nbsp; &nbsp; &nbsp; - CJK Kanji and Japanese Katakana<br>
+<br>
+Personal use: index/retrieve local files.<br>
+<br>
+Kirara is based on the idea similar to Glimpse.<br>
+<br>
+(1) indexing + grep<br>
+(2) multi-level indexing<br>
+<br>
+(a) small space for indexing<br>
+(b) small update time<br>
+(c) quick search<br>
+<br>
+Note that:<br>
+small indexing &nbsp; -&gt;|&lt;-&nbsp; quick search&nbsp; &nbsp; #
+comflicting<br>
+Kirara makes more index -&gt; quick search<br>
+Glimpse is single-level indexing.<br>
+<br>
+-------------<br>
+<br>
+Query<br>
+<br>
+Kirara2 is similar to Kirara1 but stands on different concept.<br>
+Kirara1 supports a sort of phrase search but slow.<br>
+Kirara2 improves this problem at the cost of indexing space and
+updating time.<br>
+<br>
+phrase search of Kirara: search text lines with multiple query
+words.<br>
+<br>
+Kirara1: The database is index of words that points to
+directory.<br>
+Kirara2: The database is index of words that points to file.<br>
+<br>
+Both support:<br>
+QE mode (query expression mode)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; '&amp;', '|', '*', '?', ' '<br>
+The example:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; 'snoopy&amp;html'<br>
+&nbsp; &nbsp; &nbsp; &nbsp; 'sn?o*y htm*'<br>
+<br>
+Look MAN_KFIND for detail.<br>
+<br>
+-------------<br>
+<br>
+Words<br>
+<br>
+Two or more aphanumeric letters including '_' for Latin text.<br>
+All words are converted to lower case.<br>
+The minimum number of letters is configurable.<br>
+<br>
+Assumption:<br>
+Text is composed of words that are separated by spaces and
+symbols.<br>
+This is popular in English and many European Languages, but not in
+Japanese.<br>
+In extracting words from Japanese text, Hiragana is discarded. This
+is reasonable<br>
+strategy in handling Japanese.<br>
+<br>
+-------------<br>
+<br>
+The user's interface<br>
+<br>
+Best match with Rio.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; term% kfind1 snoopy<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /lib/dict/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy'
+/sys/lib/linux/var/lib/apt/lists/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/lib/man/lookman/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy'
+/sys/lib/sysconfig/auth/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy'
+/sys/lib/sysconfig/proto/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/man/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/man/3/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/man/8/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/src/cmd/gs/doc/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; G1 'snoopy' /sys/src/cmd/ip/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br>
+This is an example for Kirara1.<br>
+In Kirara2, replace: kfind1 -&gt; kfind2 and G1 -&gt; G2<br>
+and also, directories -&gt; files<br>
+<br>
+Note that: two steps<br>
+<br>
+Kirara1:<br>
+1. find directories<br>
+2. find files and the contents<br>
+Step 2 is actually 'grep'.<br>
+<br>
+Kirara2:<br>
+1. find files<br>
+2. find the contents<br>
+Step 2 is 'grep' for small files and new tools (look MAN_MKDICT)
+for large files.<br>
+<br>
+Two-steps search is not a weekness, but a desirable feature.<br>
+Because we have so many files that are hit by the query.<br>
+<br>
+-------------<br>
+<br>
+The indexing organization<br>
+<br>
+My example<br>
+<br>
+Kirara1: /n/other/kirara1/sysdb<br>
+Kirara2: /n/other/kirara2/sysdb<br>
+target=(/lib /sys/lib /sys/src /sys/man /sys/include /sys/doc
+/rc)<br>
+<br>
+Kirara1: /n/other/kirara1/usrdb<br>
+Kirara2: /n/other/kirara2/usrdb<br>
+target=$home/^(bin/rc lib netlib doc adm issues srclib src)<br>
+<br>
+Now, you may have as many usr*db as you like.<br>
+<br>
+Indexing target is fully configurable.<br>
+Excluding target is also supported.<br>
+It is wise not to include dictionary such as "/lib/dict" which
+is<br>
+annoying in retrieval.<br>
+<br>
+-------------<br>
+<br>
+Multi-Level Indexing (Kirara1)<br>
+<br>
+(1) Indexing (top level)<br>
+word to directory mapping<br>
+sysdb/main&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # main index<br>
+sysdb/mtoc&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # meta index (table of contents for main)<br>
+sysdb/qdir/*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # index of
+each directory (only for large direcories)<br>
+sysdb/qtd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # map table (qid, mtime, path_to_dir)<br>
+sysdb/qd&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; # map table (qid, path_to_dir)<br>
+<br>
+main &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# word to dir qid<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;0000000000014f0a<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;000000000001a1e0<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;000000000001a26e<br>
+<br>
+mtoc&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # word to range in
+main<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa 0 126669<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ab 126669 491569<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ac 491569 1258566<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ad 1258566 1852467<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br>
+<br>
+qdir/*/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; where '*' is qid of directories<br>
+in qdir/*/ we have<br>
+&nbsp; &nbsp; &nbsp; &nbsp; qtn &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; # map table of files (qid, mtime, name)<br>
+and optionary, word to file mapping:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ind.gz &nbsp;# fine index of the
+directory (gzipped)<br>
+<br>
+usrdb is same as sysdb.<br>
+<br>
+-------------<br>
+<br>
+Multi-Level Indexing (Kirara2)<br>
+<br>
+(1) Indexing (top level)<br>
+word to file mapping<br>
+sysdb/main&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # main index<br>
+sysdb/mtoc&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # meta index (table of contents for main)<br>
+sysdb/qdir/*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # index of
+each file (only for large files)<br>
+sysdb/qtf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; # map table (qid, mtime, path_to_file)<br>
+sysdb/qf&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; # map table (qid, path_to_file)<br>
+<br>
+main &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# word to file
+qid<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;000000000001a1e8<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;000000000001a26f<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa &nbsp; &nbsp;
+&nbsp;000000000001a277<br>
+<br>
+mtoc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# word to range in
+main<br>
+&nbsp; &nbsp; &nbsp; &nbsp; aa 5393489 5824028<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ab 5824028 6963148<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ac 6963148 9918376<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ad 9918376 11926357<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br>
+qdir/*/<br>
+&nbsp; &nbsp; &nbsp; &nbsp; where '*' is qid of files<br>
+in qdir/*/ we have files:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; ind.gz &nbsp;# fine index of the file
+(gzipped)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; dict:X &nbsp;# dictionary of the
+file<br>
+&nbsp; &nbsp; &nbsp; &nbsp; list:X &nbsp;# inverted list of the
+file<br>
+&nbsp; &nbsp; &nbsp; &nbsp; indx:X &nbsp;# map table of dict:X<br>
+<br>
+usrdb is same as sysdb.<br>
+<br>
+-------------<br>
+<br>
+Experiment<br>
+<br>
+(a) hardware<br>
+GA-H61M-USB3-B3<br>
+Intel Pentium G860 (3GHz)<br>
+DDR3 PC3 8GB (only 4GB is used in 386 kernel)<br>
+<br>
+(b) software<br>
+9front<br>
+cwfs64x<br>
+<br>
+-------------<br>
+<br>
+NB: The performance data is of older version.<br>
+<br>
+<br>
+The performance (compression ratio)<br>
+<br>
+(a) Kirara1<br>
+<br>
+target &nbsp; target&nbsp; num_of_dirs&nbsp; &nbsp; &nbsp; &nbsp;
+index<br>
+sysdb: &nbsp; 380 MB&nbsp; &nbsp; 1790 dirs&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; 100 MB<br>
+usrdb:&nbsp; 1900 MB&nbsp; &nbsp; 9000 dirs&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; 230 MB<br>
+<br>
+target: the size is total ammount of text file size.<br>
+index: includes "main" + (all other files for indexing).<br>
+ratio: 100/380 (sysdb)<br>
+usrdb includes many large file which improved the ratio.<br>
+current version requies much indexing space than previous
+version.<br>
+this is because current version of word extractor supports
+non-ascii runes.<br>
+<br>
+* &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tiny&nbsp;
+&nbsp; small &nbsp; medium&nbsp; large<br>
+sysdb &nbsp; 31227&nbsp; &nbsp; 313 &nbsp; &nbsp; 12&nbsp; &nbsp;
+&nbsp; 4<br>
+usrdb &nbsp; 85246 &nbsp; 1509&nbsp; &nbsp; 220 &nbsp; &nbsp;
+17<br>
+<br>
+where<br>
+tiny&nbsp; &nbsp; &lt;100K<br>
+small &nbsp; &lt;1000K<br>
+medium&nbsp; &lt;10000K<br>
+large<br>
+<br>
+<br>
+(b) Kirara2<br>
+<br>
+target &nbsp; target &nbsp; num_of_files&nbsp; &nbsp; &nbsp;
+index<br>
+sysdb: &nbsp; 380 MB &nbsp; 36000 files &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 170 MB<br>
+usrdb:&nbsp; 1900 MB &nbsp; 92000 files &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 580 MB<br>
+<br>
+<br>
+-------------<br>
+<br>
+The performance (retrieval time)<br>
+system dependent and cache state dependent<br>
+<br>
+QE search &nbsp; &nbsp; &nbsp; # kfind foo<br>
+<br>
+latency:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; term% kfind snoopy<br>
+&nbsp; &nbsp; &nbsp; &nbsp; 0.2 seconds for Kirara1.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; 0.2 seconds for Kirara2.<br>
+<br>
+It is not important to make these times smaller.<br>
+(sufficiently small)<br>
+<br>
+Normal QE search does not make much difference between Kirara1 and
+Kirara2.<br>
+The difference is in phrase search. The followings is an
+example.<br>
+(kfind1 and kfind2 are seach command for Kirara1 and Kirara2
+respectively.)<br>
+<br>
+term% date -n; kfind2 'snoopy proto' |rc; date -n<br>
+1381328072<br>
+/sys/lib/man/lookman/index:48401: proto /sys/man/8/snoopy<br>
+/sys/lib/sysconfig/proto/standalone:61: &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; snoopy<br>
+...<br>
+1381328077<br>
+term% date -n; kfind1 'snoopy proto' |rc; date -n<br>
+1381328119<br>
+/sys/lib/man/lookman/index:48401: proto /sys/man/8/snoopy<br>
+/sys/lib/sysconfig/proto/standalone:61: &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; snoopy<br>
+...<br>
+1381328137<br>
+term%<br>
+<br>
+and another example:<br>
+<br>
+term% date -n; kfind2 'include regexp' | rc |wc ; date -n<br>
+1381329707<br>
+&nbsp; &nbsp; 247 &nbsp; &nbsp;3406 &nbsp; 37076<br>
+1381329767<br>
+term% date -n; kfind1 'include regexp' | rc |wc ; date -n<br>
+1381329805<br>
+&nbsp; &nbsp; 263 &nbsp; &nbsp;3454 &nbsp; 38337<br>
+1381329983<br>
+term%<br>
+<br>
+Kfind2 is three times faster than kfind1.<br>
+<br>
+NOTE: both Kirara1 and Kirara2 show excessive "matched" lines such
+as<br>
+&nbsp; &nbsp; &nbsp; &nbsp; /sys/lib/sysconfig/proto/standalone:61:
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; snoopy<br>
+("proto" is matched to pathname)<br>
+This tendancy is stronger in Kirara1 than in Kirara2.<br>
+<br>
+-------------<br>
+<br>
+The performance (construction/update)<br>
+<br>
+(a) Construction time<br>
+system dependent<br>
+<br>
+Initial construction<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; *&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; Kirara1&nbsp; &nbsp; &nbsp; &nbsp; Kirara2<br>
+&nbsp; &nbsp; &nbsp; &nbsp; sysdb &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 15m &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; 30m<br>
+&nbsp; &nbsp; &nbsp; &nbsp; usrdb &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 50m&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+100m<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; m: minutes<br>
+<br>
+(b) Updating time<br>
+two commands for update<br>
+<br>
+mkdb -r &nbsp; &nbsp; &nbsp; &nbsp; # scans all dirs in the target
+to detect update<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; *&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; Kirara1&nbsp; &nbsp; &nbsp; &nbsp; Kirara2<br>
+&nbsp; &nbsp; &nbsp; &nbsp; usrdb&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 2m&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; 6m<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; these times depend much on state of the
+cache (dirs in the target and the file "main")<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; NB: the use of "-r" option for Kirara1
+may miss the change because of<br>
+&nbsp; &nbsp; &nbsp; &nbsp; mtime bug in cwfs. (Fossil is free from
+this bug)<br>
+<br>
+mkdb -L &nbsp; &nbsp; &nbsp; &nbsp; # consults event log to detect
+update (only for usrdb)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; *&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; Kirara1&nbsp; &nbsp; &nbsp; &nbsp; Kirara2<br>
+&nbsp; &nbsp; &nbsp; &nbsp; usrdb&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; 2m&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; 4m<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; the "-L" option save the time for
+scanining dirs in the target.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; these times depend much on state of the
+cache (the file "main").<br>
+&nbsp; &nbsp; &nbsp; &nbsp; the above result is the case that is
+poorly cached.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; if cached well, the 2m of Kirara1
+reduces to 14sec.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; on the other hand, the 4m of Kirara2
+does not reduce to such a small value,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; I suspect that is because the size of
+"main" is too large to be fully cached.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; NB: needs event log<br>
+<br>
+-------------<br>
+<br>
+Scalability<br>
+<br>
+Main factors<br>
+<br>
+(a) retrieval time<br>
+QE search: proportional to number of dirs that include the
+query<br>
+<br>
+(b) initial construction time<br>
+proportional to total data<br>
+<br>
+(c) update time<br>
+mkdb1 -r<br>
+&nbsp; &nbsp; &nbsp; &nbsp; proportional to number of dirs and the
+changes.<br>
+mkdb1 -L<br>
+&nbsp; &nbsp; &nbsp; &nbsp; proportional to changes and size of
+index (file named "main").<br>
+<br>
+-------------<br>
+<br>
+Used Tools<br>
+<br>
+(1) rc<br>
+<br>
+(2) grep, sed, awk, sort, diff, gzip, ...<br>
+<br>
+(3) some new tools written in C<br>
+<br>
+-------------<br>
+<br>
+What Kirara means?<br>
+<br>
+Kirara is name of a girl that appeared in a Japanese comic
+book.<br>
+(But I have never read the book.)<br>
+The name is seldom used in real world.<br>
+From the name we Japanese imagine something that is shining,
+twincling<br>
+or gleaming beautifully and gracefully.<br>
+I like the name.<br>
+<br>
+-------------<br>
+<br>
+References<br>
+<br>
+[1] GLIMPSE: A Tool to Search Through Entire File Systems<br>
+Udi Manber and Sun Wu (1993)<br>
+http://webglimpse.net/pubs/glimpse.pdf<br>
+[2] Glimpse Documentation<br>
+http://webglimpse.net/gdocs/glimpsehelp.html
+</body>
+</html>

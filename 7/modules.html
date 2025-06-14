@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>MODULES(7)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+MODULES(7) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Miscellaneous
+Information Manual &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+MODULES(7)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;modules - PQ IRDB directory software
+configuration<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;A&nbsp; modules argument describes a
+particular Implicit Relational Database<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(IRDB) directory or network address.
+&nbsp; The&nbsp; -m&nbsp; option&nbsp; of&nbsp; pq(1)&nbsp;
+must<br>
+&nbsp; &nbsp; &nbsp; &nbsp;describe a directory, and the pq_open
+call of pq(2) can describe either<br>
+&nbsp; &nbsp; &nbsp; &nbsp;a directory or a network address.&nbsp;
+The syntax for modules arguments &nbsp;is<br>
+&nbsp; &nbsp; &nbsp; &nbsp;described&nbsp; below. &nbsp; The&nbsp;
+dirmod&nbsp; and netmod arguments below are modules<br>
+&nbsp; &nbsp; &nbsp; &nbsp;arguments themselves; in this way
+various modules can be stacked&nbsp; in&nbsp; a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pipeline fashion.&nbsp; The default
+modules argument is opt join.<br>
+<br>
+&nbsp; &nbsp;Directory Modules<br>
+&nbsp; &nbsp; &nbsp; &nbsp;join file<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Attach&nbsp;
+to&nbsp; one&nbsp; or&nbsp; more&nbsp; directories listed in
+file.&nbsp; Relative<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; paths are prefixed
+with /lib/pq.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;call [ netmod &nbsp;... ]<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Connect to the
+network address specified by netmod and&nbsp; use&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pqsrv
+protocol.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ev [ name [ data proto lock ] ]<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Specify&nbsp;
+the&nbsp; location of the data, prototype and lock files for<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; the ev(7) IRDB
+name.&nbsp; With no options, the location&nbsp; is&nbsp;
+assumed<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; to&nbsp; be
+".".&nbsp; If only name is specified, the data file is assumed<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; to be in either
+name/Data or D.name. &nbsp; Likewise,&nbsp; the&nbsp; prototype<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and&nbsp; lock
+files are sought in name/Proto or P.name and name/Lock<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; or L.name,
+respectively.&nbsp; If name is not an absolute pathname it<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; is assumed to be
+relative to /lib/pq.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;opt [ dirmod ]<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Optimize the
+performance of the module argument.<br>
+<br>
+FILES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/lib/pq/dispatch&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; default dispatch file<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;<a href="/1/pq.html" target=
+"_blank">pq(1)</a>, <a href="/1/pq.html" target=
+"_blank">pqsrv(1)</a>, <a href="/2/pq.html" target=
+"_blank">pq(2)</a>.<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; MODULES(7)
+</body>
+</html>

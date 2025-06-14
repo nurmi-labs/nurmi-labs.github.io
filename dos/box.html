@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>box-drawing</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<h2>box-drawing</h2>
+An example batch file using box-drawing characters.<br>
+<br>
+C:\DOCUME~1\UserName&gt;TYPE mappar.bat<br>
+@ECHO OFF<br>
+REM Copyright (C): &nbsp; 2014 &nbsp;Eric Lindblad<br>
+REM http://www.ericlindblad.blogspot.com<br>
+CLS<br>
+ECHO.<br>
+ECHO.<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mappar och Mjukvara
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ÌÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; ³ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp;1. GNU/Linux (HEMMA) ³&nbsp; A. Emacs 23.2 -nw&nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp;2. MS Dokumenter &nbsp; &nbsp; ³ &nbsp;B. Vim 7.3.138
+&nbsp; &nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp;3. MS Skrivbord&nbsp; &nbsp; &nbsp; ³&nbsp; C. Unix-skal
+(sh)&nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp;4. Skal till DOS &nbsp; &nbsp; ³ &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; ³ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ºÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄº<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+º Alternativ: A, B, C, 1A, 2A, 3A, 1B, 2B, 3B º<br>
+ECHO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼<br>
+ECHO.<br>
+ECHO.<br>
+SET /P M=Typ val och tryck paa ENTER.<br>
+PUSHD C:\Programmer\GNU Emacs 23.2\bin<br>
+SET EMACS_BIN=%CD%<br>
+POPD<br>
+IF %M%==1 GOTO HEMMA<br>
+IF %M%==2 GOTO DOKUMENTER<br>
+IF %M%==3 GOTO SKRIVBORD<br>
+IF %M%==4 GOTO EXIT<br>
+IF %M%==A GOTO EMACS<br>
+IF %M%==1A GOTO EMACS_1A<br>
+IF %M%==2A GOTO EMACS_2A<br>
+IF %M%==3A GOTO EMACS_3A<br>
+IF %M%==B GOTO VIM<br>
+IF %M%==1B GOTO VIM_1B<br>
+IF %M%==2B GOTO VIM_2B<br>
+IF %M%==3B GOTO VIM_3B<br>
+IF %M%==C GOTO MSYS<br>
+:HEMMA<br>
+CD %HOME%<br>
+GOTO EXIT<br>
+:DOKUMENTER<br>
+CD %USERPROFILE%\Dokumenter<br>
+GOTO EXIT<br>
+:SKRIVBORD<br>
+CD %USERPROFILE%\Skrivbord<br>
+GOTO EXIT<br>
+:EMACS<br>
+"%EMACS_BIN%"\emacs.exe -nw<br>
+GOTO EXIT<br>
+:EMACS_1A<br>
+CD %HOME%<br>
+"%EMACS_BIN%"\emacs.exe -nw<br>
+GOTO EXIT<br>
+:EMACS_2A<br>
+CD %USERPROFILE%\Dokumenter<br>
+"%EMACS_BIN%"\emacs.exe -nw<br>
+GOTO EXIT<br>
+:EMACS_3A<br>
+CD %USERPROFILE%\Skrivbord<br>
+"%EMACS_BIN%"\emacs.exe -nw<br>
+GOTO EXIT<br>
+:VIM<br>
+vim.exe<br>
+GOTO EXIT<br>
+:VIM_1B<br>
+CD %HOME%<br>
+vim.exe<br>
+GOTO EXIT<br>
+:VIM_2B<br>
+CD %USERPROFILE%\Dokumenter<br>
+vim.exe<br>
+GOTO EXIT<br>
+:VIM_3B<br>
+CD %USERPROFILE%\Skrivbord<br>
+vim.exe<br>
+GOTO EXIT<br>
+:MSYS<br>
+CD C:\MinGW\msys\1.0<br>
+msys.bat -norxvt<br>
+:EXIT<br>
+CLS<br>
+C:\DOCUME~1\UserName&gt;
+</body>
+</html>

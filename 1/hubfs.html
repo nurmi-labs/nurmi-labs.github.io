@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>HUBFS(1)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+HUBFS(1) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;General Commands Manual &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; HUBFS(1)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hub, hubfs, hubshell&nbsp; - persistent
+multiplexed i/o sessions, or 'screen<br>
+&nbsp; &nbsp; &nbsp; &nbsp;without a screen'<br>
+<br>
+SYNOPSIS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hub [ -b ] [ -t ] [ srvname ] [ hubgroup
+]<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hubshell attachstring<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hubfs [ -Dtasm ] srvname<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Hub invokes hubfs(1) to create a 9p
+filesystem of pipe-like Hubs avail-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;able&nbsp; as&nbsp; a&nbsp; /srv&nbsp;
+and&nbsp; starts an rc(1) shell with its file descriptors<br>
+&nbsp; &nbsp; &nbsp; &nbsp;redirected to these hubs, then uses
+hubshell(1) as a client&nbsp; for &nbsp;these<br>
+&nbsp; &nbsp; &nbsp; &nbsp;connections.&nbsp; The overall usage
+model is somewhat similar to GNU screen<br>
+&nbsp; &nbsp; &nbsp; &nbsp;but without the additional complexities
+of TTY management.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The base behavior of hub(1) srvname is
+bimodal, and&nbsp; will&nbsp; function&nbsp; as<br>
+&nbsp; &nbsp; &nbsp; &nbsp;either&nbsp; a client or server
+depending on whether /srv/srvname exists. If<br>
+&nbsp; &nbsp; &nbsp; &nbsp;no name is provided,&nbsp; hub&nbsp;
+will&nbsp; create&nbsp; or&nbsp; attach&nbsp; to&nbsp; a&nbsp;
+/srv&nbsp; named<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/srv/hubfs&nbsp; containing&nbsp;
+a&nbsp; persistent rc(1) session. Thus, the simplest<br>
+&nbsp; &nbsp; &nbsp; &nbsp;possible model of use is:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to start a hubfs hosted persistent rc(1)
+shell. Another invocation of<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from any window with access to that /srv
+will connect&nbsp; to&nbsp; it.&nbsp; The&nbsp; -b<br>
+&nbsp; &nbsp; &nbsp; &nbsp;flag&nbsp; to hub backgrounds the
+initially created rc(1) instead of attach-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ing to it. The -t flag starts the
+hubfs&nbsp; in&nbsp; trunc&nbsp; mode,&nbsp; which&nbsp; means<br>
+&nbsp; &nbsp; &nbsp; &nbsp;clients will not be sent the previously
+buffered data upon connection.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Hubfs&nbsp; can be used to provide
+general purpose pipes locally or across a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;network, with some special features.
+Most notably,&nbsp; echoing&nbsp; freeze&nbsp; to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the&nbsp; ctl&nbsp; file will change the
+behavior of the hub files from pipe-like<br>
+&nbsp; &nbsp; &nbsp; &nbsp;with blocking reads to simple
+static&nbsp; files&nbsp; that&nbsp; can&nbsp; be&nbsp; viewed&nbsp;
+and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;edited&nbsp; with&nbsp; normal&nbsp;
+tools. Writing melt to ctl will restore pipe-like<br>
+&nbsp; &nbsp; &nbsp; &nbsp;behavior and resume the normal flow of
+data.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;While connected via a hubshell input
+beginning with a %symbol&nbsp; will&nbsp; be<br>
+&nbsp; &nbsp; &nbsp; &nbsp;checked for matching command strings.
+These commands are used to create<br>
+&nbsp; &nbsp; &nbsp; &nbsp;new subshells within the hubfs session
+and move between&nbsp; them.&nbsp; A&nbsp; dis-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tinctive&nbsp; feature&nbsp; is&nbsp;
+the&nbsp; ability for remote clients to share a local<br>
+&nbsp; &nbsp; &nbsp; &nbsp;shell with other clients of the hubfs.
+The&nbsp; %local&nbsp; NAME&nbsp; command&nbsp; does<br>
+&nbsp; &nbsp; &nbsp; &nbsp;this.&nbsp; The&nbsp; more&nbsp;
+traditional mode of starting new shells on the remote<br>
+&nbsp; &nbsp; &nbsp; &nbsp;host is done with the %remote NAME
+command. Note that 'remote'&nbsp; is&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;machine&nbsp; hosting&nbsp; the&nbsp;
+shell&nbsp; you&nbsp; are&nbsp; connected to currently, and the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;active hubs must be running a shell, not
+another application.&nbsp; %detach<br>
+&nbsp; &nbsp; &nbsp; &nbsp;terminates&nbsp; the&nbsp;
+hubshell&nbsp; and&nbsp; returns&nbsp; control to the user's
+original<br>
+&nbsp; &nbsp; &nbsp; &nbsp;shell.<br>
+<br>
+EXAMPLES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hub wrapper script:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;start and connect to a new hubfs and
+post /srv/aug5<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub aug5<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;connects a new client to the rc shell
+started by the previous command<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub aug5<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;start and connects to new rc named rctwo
+within the aug5 hubfs<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub aug5 rctwo<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Making new shells and moving in
+hubshell:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-all commands begin with '%' as first
+character-<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %detach&nbsp; #
+disconnect from attached shell<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %remote NAME #
+start shell on remote machine<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %local NAME #
+start shell on local machine shared to hubfs<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %attach NAME #
+move to an existing hubfs shell<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %err TIME, %in
+TIME, %out TIME # time in ms for delay loop<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %status # basic
+hubfs connection info<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %list # lc of
+connected hubfs hubs<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %fear # paranoid
+mode, %calm to return to normal operation<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %trunc # don't
+send buffered data, %notrunc reactivates<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %unecho # turn off
+echo flush, %echoes to reactivate<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; %fortun # turn on
+fortune flush, %unfort to deactivate<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Controlling hubfs via the ctl file
+(reading from ctl file returns&nbsp; sta-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tus):<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo eof
+&gt;/n/hubfs/ctl # send eof to all readers on all hubs<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo eof NAME
+&gt;/n/hubfs/ctl # send eof to the named hub<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo freeze
+&gt;/n/hubfs/ctl # freeze Hubs as static files<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo melt
+&gt;/n/hubfs/ctl # resume normal flow of data<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo fear
+&gt;/n/hubfs/ctl # paranoid, writers wait for readers<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo calm
+&gt;/n/hubfs/ctl # resume non-paranoid mode<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo trunc
+&gt;/n/hubfs/ctl # don't send buffered data<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo notrunc
+&gt;/n/hubfs/ctl # send buffer to new clients<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo quit
+&gt;/n/hubfs/ctl # kill the fs<br>
+<br>
+SOURCE<br>
+&nbsp; &nbsp; &nbsp;
+&nbsp;https://bitbucket.org/mycroftiv/hubfs<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;UNIX pipes, pipe(3) , srv(3) and
+aux/consolefs(4)<br>
+<br>
+BUGS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;In the standard mode of use for
+interactive rc shells, the synchroniza-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tion between stdout and&nbsp;
+stderr&nbsp; is&nbsp; not&nbsp; maintained.&nbsp; The&nbsp;
+symptom&nbsp; is<br>
+&nbsp; &nbsp; &nbsp; &nbsp;prompts&nbsp; appearing&nbsp; in&nbsp;
+seemingly the wrong place. To fix this, enter a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;command like %err 300 to set 300
+milliseconds of delay before data from<br>
+&nbsp; &nbsp; &nbsp; &nbsp;stderr is printed.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Because&nbsp; hubfs&nbsp;
+maintains&nbsp; static&nbsp; buffers and always allows clients
+to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;write to avoid loss of interactivity,
+slow readers may experience&nbsp; data<br>
+&nbsp; &nbsp; &nbsp; &nbsp;loss&nbsp; while reading output larger
+than the size of the static buffer if<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the output was also transmitted fast
+enough to "wrap around" the&nbsp; loca-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tion&nbsp; of&nbsp; the reader in the
+data buffer. The purpose of "paranoid" mode<br>
+&nbsp; &nbsp; &nbsp; &nbsp;is to restrict the speed of writers if
+this is a concern.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Hubs must be given alphabetic names
+within the ascii subset of unicode.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;"Doug had for years and years, and he
+talked to&nbsp; us&nbsp; continually&nbsp; about<br>
+&nbsp; &nbsp; &nbsp; &nbsp;it,&nbsp; a&nbsp; notion&nbsp; of
+interconnecting computers in grids, and arrays, very<br>
+&nbsp; &nbsp; &nbsp; &nbsp;complex, and there were always problems
+in his proposals. That what you<br>
+&nbsp; &nbsp; &nbsp; &nbsp;would type would be linear and what he
+wanted was three-dimensional, n-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;dimensional...I mean he wanted just
+topological connection of&nbsp; programs<br>
+&nbsp; &nbsp; &nbsp; &nbsp;and&nbsp; to&nbsp; build&nbsp;
+programs&nbsp; with loops and and horrid things. He had such<br>
+&nbsp; &nbsp; &nbsp; &nbsp;grandiose ideas and we were saying,
+the&nbsp; complexity&nbsp; you're&nbsp; generating<br>
+&nbsp; &nbsp; &nbsp; &nbsp;just&nbsp; can't&nbsp; be&nbsp;
+fathomed.&nbsp; You don't sit down and you don't type these<br>
+&nbsp; &nbsp; &nbsp; &nbsp;kind of connections together. And he
+persisted with the grandiose ideas<br>
+&nbsp; &nbsp; &nbsp; &nbsp;where you get into Kirchoff's law
+problems...what happens if you have a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;feedback loop and every program doubles
+the number&nbsp; of&nbsp; characters,&nbsp; it<br>
+&nbsp; &nbsp; &nbsp; &nbsp;reads&nbsp; one and writes two? It's got
+to go somewhere - synchronization -<br>
+&nbsp; &nbsp; &nbsp; &nbsp;there's just no way to implement his
+ideas and we kept trying&nbsp; to&nbsp; pare<br>
+&nbsp; &nbsp; &nbsp; &nbsp;him&nbsp; down&nbsp; and&nbsp;
+weed&nbsp; him down and get something useful and distill it.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;What was needed, was real ideas...and
+there were&nbsp; constant&nbsp; discussions<br>
+&nbsp; &nbsp; &nbsp; &nbsp;all&nbsp; through&nbsp; this&nbsp;
+period, and it hit just one night, it just hit, and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;they went in instantly."<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;~Ken Thompson on UNIX pipes' origins<br>
+<br>
+&nbsp; &nbsp; &nbsp;
+&nbsp;http://www.princeton.edu/~hos/mike/transcripts/thompson.htm<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; HUBFS(1)
+</body>
+</html>

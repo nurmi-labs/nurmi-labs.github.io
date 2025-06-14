@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>PQ(2)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+PQ(2) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; System Calls Manual&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+PQ(2)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq - IRDB directory query and network
+interface<br>
+<br>
+SYNOPSIS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;char *pq_open (char **argv)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;int pq_close (char *pq)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;int pq_read (char *pq, **vec)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;int pq_write (char *pq, **vec)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;int pq_read (char *pq, *buf, int
+size)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;int pq_write (char *pq, *buf, int
+size)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;extern char pq_error[];<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq &nbsp;is a set of routines that
+provides access to local or remote direc-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tories (databases).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_open arranges for a local directory
+or network (for remote&nbsp; directo-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ries) to be accessed.&nbsp; argv
+identifies the particular directory or net-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;work and is described in modules(7); it
+should be terminated by a&nbsp; null<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pointer.&nbsp; The return value is a
+handle to the opened object and is used<br>
+&nbsp; &nbsp; &nbsp; &nbsp;in subsequent operations on that
+object.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_close ends access to the directory or
+network referenced by the han-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;dle pq.&nbsp; All resources used by the
+handle are released.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_read&nbsp; and pq_write access the
+object referenced by the handle pq and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;have different calling sequences
+for&nbsp; directory&nbsp; and&nbsp; network&nbsp; handles.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Directory handles pass an array of
+strings vec and network handles pass<br>
+&nbsp; &nbsp; &nbsp; &nbsp;a character buffer buf and its size in
+bytes size.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_write, where pq is a directory
+handle, arranges to query the&nbsp; direc-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tory&nbsp; for the attributes and values
+listed in the array of strings vec,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;which&nbsp; is&nbsp; terminated&nbsp;
+by&nbsp; a&nbsp; null&nbsp; pointer. &nbsp; Each&nbsp; string&nbsp;
+is&nbsp; either<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attribute=value,&nbsp; which&nbsp;
+selects records whose attribute matches value;<br>
+&nbsp; &nbsp; &nbsp; &nbsp;or attribute, which projects attribute
+from&nbsp; selected&nbsp; records&nbsp; in&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;directory. &nbsp; Selects&nbsp; with
+different attributes are anded; selects with<br>
+&nbsp; &nbsp; &nbsp; &nbsp;like attributes are ored. &nbsp;
+If&nbsp; vec&nbsp; consists&nbsp; of&nbsp; exactly&nbsp; one&nbsp;
+string<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attribute, the query projects the names
+of the attributes in the direc-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tory.&nbsp; The attribute names are
+directory specific; the&nbsp; matching&nbsp; algo-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;rithms are directory and attribute
+specific.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_read, where pq is a directory handle,
+returns an array of strings in<br>
+&nbsp; &nbsp; &nbsp; &nbsp;vec for the next record that matches the
+query requested&nbsp; by&nbsp; the&nbsp; last<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_write&nbsp; call.&nbsp; The&nbsp;
+strings&nbsp; are&nbsp; returned&nbsp; in the same order as the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;query.&nbsp; Attributes that are
+repeated in the&nbsp; query&nbsp; have&nbsp; their&nbsp; values<br>
+&nbsp; &nbsp; &nbsp; &nbsp;repeated in the return vector, which is
+terminated by a null pointer.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Where pq is a network handle, pq_read
+reads at most size bytes from the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;network connection into the buffer buf,
+and pq_write writes size&nbsp; bytes<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from the buffer buf to the network
+connection.<br>
+<br>
+DIAGNOSTICS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;All functions return -1 on failure,
+except for pq_open, which returns a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;null pointer.&nbsp; An error message is
+placed in pq_error for all failures,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;except&nbsp; for&nbsp; functions&nbsp;
+that&nbsp; take a network handle argument, which set<br>
+&nbsp; &nbsp; &nbsp; &nbsp;errno instead.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_read returns a positive integer
+if&nbsp; a&nbsp; record&nbsp; is&nbsp; retrieved&nbsp; for&nbsp;
+a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;directory handle, or the number of bytes
+read from the connection for a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;network handle.&nbsp; It returns 0 if no
+more records match in a&nbsp; directory,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;or if the network connection is closed
+remotely.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;pq_write&nbsp; returns&nbsp; a&nbsp;
+positive&nbsp; integer if the query is accepted by the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;directory, or the number of bytes
+written to the network connection.<br>
+<br>
+SOURCE<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/sys/src/cmd/pq/lib<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;<a href="/1/pq.html" target=
+"_blank">pq(1)</a>, <a href="/7/modules.html" target=
+"_blank">modules(7)</a>.<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;PQ(2)
+</body>
+</html>
