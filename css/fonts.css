@@ -1,0 +1,29 @@
+@font-face {
+    font-family: "Bitstream Vera Sans Mono";
+    src: url("../fonts/VeraMono.eot"),
+         url("../fonts/VeraMono.woff2"),
+         url("../fonts/VeraMono.woff"),
+         url("../fonts/VeraMono.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Bera Mono";
+    src: url("../fonts/BeraMono.eot"),
+         url("../fonts/BeraMono.woff2"),
+         url("../fonts/BeraMono.woff"),
+         url("../fonts/BeraMono.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Inconsolata";
+    src: url("../fonts/Inconsolata.eot"),
+         url("../fonts/Inconsolata.woff2"),
+         url("../fonts/Inconsolata.woff"),
+         url("../fonts/Inconsolata.ttf");
+    font-weight: normal;
+    font-style: normal;
+}

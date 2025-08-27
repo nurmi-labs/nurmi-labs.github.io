@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>IO(1)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+IO(1) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; General Commands Manual&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; IO(1)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;io,&nbsp; iosrv,&nbsp; ioshell&nbsp; -
+persistent multiplexed i/o sessions, or 'screen<br>
+&nbsp; &nbsp; &nbsp; &nbsp;without a screen'<br>
+<br>
+SYNOPSIS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;io [ -a -i -p -v ] [ -l logfile ] [ -c
+cmd ] srvname<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;io srvname [ zap slow fast here ]<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;iosrv [ -hrspv ] [ -t sleeptime ]
+srvname<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ioshell filefromfd0 filetofd1 filetofd2
+ctlfile<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Io invokes iosrv(1) to create a system
+of pipe(3) devices available&nbsp; as<br>
+&nbsp; &nbsp; &nbsp; &nbsp;a &nbsp;srvfs(4)&nbsp; and&nbsp; starts
+an rc(1) shell with its file descriptors redi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;rected to these pipes, then uses
+ioshell(1) as a client for these&nbsp; con-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;nections. The overall usage model is
+somewhat similar to GNU screen but<br>
+&nbsp; &nbsp; &nbsp; &nbsp;without the additional complexities of
+TTY management.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The base behavior of io(1) srvname is
+bimodal,&nbsp; and&nbsp; will&nbsp; function&nbsp; as<br>
+&nbsp; &nbsp; &nbsp; &nbsp;either&nbsp; a client or server
+depending on whether /srv/srvname exists. If<br>
+&nbsp; &nbsp; &nbsp; &nbsp;no name is&nbsp; provided,&nbsp;
+io&nbsp; will&nbsp; create&nbsp; or&nbsp; attach&nbsp; to&nbsp;
+a&nbsp; /srv&nbsp; named<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/srv/iorc.$pid&nbsp; containing&nbsp; a
+persistent rc session. Thus, the simplest<br>
+&nbsp; &nbsp; &nbsp; &nbsp;possible model of use is:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to start a backgrounded iosrv hosted
+persistent rc shell, and then<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from any window with access to that /srv
+to connect to it.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;By default, no connection is made to the
+initially created rc.&nbsp; The&nbsp; -a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;flag&nbsp; will&nbsp; connect&nbsp; the
+calling window to the rc by simply invoking io<br>
+&nbsp; &nbsp; &nbsp; &nbsp;srvname after it has completed the iosrv
+/srv setup. Conversely, if the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-i&nbsp; flag&nbsp; is&nbsp;
+given,&nbsp; the&nbsp; initial&nbsp; window is run with the iosrv
+server<br>
+&nbsp; &nbsp; &nbsp; &nbsp;itself foregrounded in interactive
+control console mode,&nbsp; with&nbsp; logging<br>
+&nbsp; &nbsp; &nbsp; &nbsp;sent&nbsp; to the initiating window and
+that window's keyboard input sent to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the ctl/data file. Otherwise, the output
+is&nbsp; backgrounded&nbsp; and&nbsp; control<br>
+&nbsp; &nbsp; &nbsp; &nbsp;messages&nbsp; can&nbsp; only&nbsp;
+be&nbsp; written via echo to the mounted ctl/data pipe.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The -v option activates verbose debug
+logging of&nbsp; all&nbsp; the&nbsp; client&nbsp; and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;server message passing, and -l logfile
+redirects logging information in<br>
+&nbsp; &nbsp; &nbsp; &nbsp;either mode to the specified file, or to
+/tmp/iolog$pid if no&nbsp; filename<br>
+&nbsp; &nbsp; &nbsp; &nbsp;is given.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The -p flag is used to start in
+'paranoid' mode. Normally, reading pro-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;cesses may fill the buffers (sized
+to&nbsp; 512k&nbsp; in&nbsp; the&nbsp; default&nbsp; compile)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ahead&nbsp; of&nbsp; the output clients,
+who catch up 'as fast as they are able'.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Paranoid mode enforces a 'one read one
+write' behavior. This is&nbsp; gener-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ally not desirable unless a slow client
+needs to request well over 512k<br>
+&nbsp; &nbsp; &nbsp; &nbsp;data at once at maximum speed.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The -c command option replaces the
+default&nbsp; backgrounded&nbsp; rc&nbsp; with&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;command of your choice.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io -c cat
+io.cat<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;will make cat(1) the active process.
+Subsequent commands of the form io<br>
+&nbsp; &nbsp; &nbsp; &nbsp;io.cat will connect to the running
+backgrounded cat&nbsp; process,&nbsp; allowing<br>
+&nbsp; &nbsp; &nbsp; &nbsp;for a very simple chat-type application
+between multiple users. ( chmod<br>
+&nbsp; &nbsp; &nbsp; &nbsp;666 /srv/cat.io by the controlling user
+will be necessary&nbsp; first.)&nbsp; For<br>
+&nbsp; &nbsp; &nbsp; &nbsp;more&nbsp; complex&nbsp; commands a
+certain amount of ingenuity in string quoting<br>
+&nbsp; &nbsp; &nbsp; &nbsp;may be required.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;io in its client role accepts no flags.
+When&nbsp; /srv/srvname&nbsp; exists,&nbsp; io<br>
+&nbsp; &nbsp; &nbsp; &nbsp;srvname&nbsp; will&nbsp; mount the /srv
+and then start an ioshell client attached<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to a new set of file descriptors
+requested from&nbsp; the&nbsp; iosrv. &nbsp; Multiple<br>
+&nbsp; &nbsp; &nbsp; &nbsp;clients&nbsp; may&nbsp; connect&nbsp;
+simultaneously,&nbsp; and&nbsp; clients may disconnect and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;reconnect freely. The optional arguments
+[ zap fast&nbsp; slow&nbsp; here&nbsp; ]&nbsp; are<br>
+&nbsp; &nbsp; &nbsp; &nbsp;translated&nbsp; into&nbsp;
+commands&nbsp; sent to the iosrv ctl file.&nbsp; zap clears the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;log prior to connecting.&nbsp; slow and
+fast set the basic loop speed of the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;server&nbsp; processes.&nbsp;
+(Processes&nbsp; lock or block during idle, so this does<br>
+&nbsp; &nbsp; &nbsp; &nbsp;not affect load, only maximum&nbsp;
+throughput&nbsp; and&nbsp; consumption&nbsp; of&nbsp; system<br>
+&nbsp; &nbsp; &nbsp; &nbsp;resources&nbsp; during&nbsp;
+constant&nbsp; i/o&nbsp; transmission.)&nbsp; here creates an
+addi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tional rc on the CLIENT machine&nbsp;
+attached&nbsp; to&nbsp; the&nbsp; current&nbsp; iosrv&nbsp; and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attaches&nbsp; to it. In other words,
+this allows the client to share a per-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;sistent rc session back to the HOST
+iosrv and its&nbsp; other&nbsp; clients. &nbsp; An<br>
+&nbsp; &nbsp; &nbsp; &nbsp;arbitrarily compiled-in maximum of 64
+file descriptors can be used pro-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;gressively for a single hub.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The ioshell client provides a few
+features to interface with iosrv.&nbsp; It<br>
+&nbsp; &nbsp; &nbsp; &nbsp;is&nbsp; invoked automatically by io and
+rarely directly by the user. Funda-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;mentally, ioshell simply acts to&nbsp;
+"bucket&nbsp; brigade"&nbsp; data&nbsp; between&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;user's&nbsp; existing shell file
+descriptors and the pipes managed by iosrv.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The ioshell is basically
+transparent&nbsp; to&nbsp; input&nbsp; and&nbsp; output&nbsp;
+with&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;exception of providing a set of commands
+and a communication channel to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the iosrv.&nbsp; Some text strings are
+intercepted by the ioshell and&nbsp; trig-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ger&nbsp; special&nbsp; actions.&nbsp;
+In&nbsp; particular: remote # , local # , attach # ,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;clear , detach , hist , and hub
+cmdstring are treated as follows.&nbsp; Note<br>
+&nbsp; &nbsp; &nbsp; &nbsp;that the connection context is relevant
+in particular for:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; remote #<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;which creates a new rc session on the
+HOST machine (the machine running<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the iosrv being targeted) with 3 new
+Hubs activated and shifts the con-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;nection&nbsp; to &nbsp;it.&nbsp; #
+corresponds to the lowest numbered of the new Hubs.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;This command can only be issued when
+actually connected to an&nbsp; io&nbsp; ses-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;sion on the remote host. (This
+corresponds to the conventional creation<br>
+&nbsp; &nbsp; &nbsp; &nbsp;of a new shell within 'screen'.)
+Conversely,<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; local #<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;functions similarly but the rc is hosted
+by&nbsp; the&nbsp; CLIENT&nbsp; machine&nbsp; (the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;machine&nbsp; importing&nbsp; the /srv -
+if both the client and the server are on<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the same machine, remote and local
+are&nbsp; equivalent.)&nbsp; Multiple&nbsp; clients<br>
+&nbsp; &nbsp; &nbsp; &nbsp;can all share rc sessions to the other
+clients via the shared iosrv. In<br>
+&nbsp; &nbsp; &nbsp; &nbsp;other words, starting new shared
+rc's&nbsp; using&nbsp; the&nbsp; local&nbsp; option&nbsp; makes<br>
+&nbsp; &nbsp; &nbsp; &nbsp;iosrv the equivalent of a shared /srv
+for the connected machines, where<br>
+&nbsp; &nbsp; &nbsp; &nbsp;any machine can post new pipes for
+either input or&nbsp; output.&nbsp; Note&nbsp; that<br>
+&nbsp; &nbsp; &nbsp; &nbsp;local will always refer to the local
+client machine, but the meaning of<br>
+&nbsp; &nbsp; &nbsp; &nbsp;'remote' shifts depending on where the
+current ioshell is attached.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attach #<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;shifts to the currently existing iosrv
+rc whose lowest Hub # is&nbsp; given.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Using&nbsp; new&nbsp; and&nbsp; attach,
+the user can create additional instances of rc<br>
+&nbsp; &nbsp; &nbsp; &nbsp;connected to the current iosrv and
+switch&nbsp; between&nbsp; them&nbsp; freely.&nbsp; VERY<br>
+&nbsp; &nbsp; &nbsp; &nbsp;IMPORTANT:&nbsp; as&nbsp; a&nbsp;
+standard&nbsp; rc&nbsp; shell&nbsp; or&nbsp; other&nbsp;
+traditional&nbsp; textual<br>
+&nbsp; &nbsp; &nbsp; &nbsp;input/output program uses 3 file
+descriptors, numbering should&nbsp; proceed<br>
+&nbsp; &nbsp; &nbsp; &nbsp;by&nbsp; increments of 3 as additonal rc
+are attached to a given iosrv host.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Some care must be taken to track these
+numbers as the results&nbsp; of&nbsp; mis-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;aligned&nbsp; attaches&nbsp; could be
+disruptive to the integrity of the session.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The simple rule is that the numeric
+parameter to&nbsp; the&nbsp; attach,&nbsp; remote,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;and local commands should always be a
+multiple of 3.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; detach<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ends&nbsp; the&nbsp; current&nbsp;
+ioshell attachment to the iosrv pipes - it does not<br>
+&nbsp; &nbsp; &nbsp; &nbsp;affect the remote system in any way, it
+simply returns control&nbsp; to&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp;original&nbsp; shell. (it also requests
+a fortune(1) on the way out.)&nbsp; clear<br>
+&nbsp; &nbsp; &nbsp; &nbsp;resets the internal buffers and pointers
+of the&nbsp; primary&nbsp; set&nbsp; of&nbsp; hubs<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(H0,&nbsp; H1,&nbsp; and&nbsp; H2).
+&nbsp; hist&nbsp; provides&nbsp; a&nbsp; command history of the
+user's<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attached ioshell.&nbsp; Note this is not
+a&nbsp; complete&nbsp; log&nbsp; of&nbsp; all&nbsp; attached<br>
+&nbsp; &nbsp; &nbsp; &nbsp;input&nbsp; clients, but only of the
+local client.&nbsp; hub cmdstring sends cmd-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;string to the iosrv ctl file, enabling
+arbitrary commands to be&nbsp; passed<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to&nbsp; the&nbsp; session. Notable
+commands include: hub fear to active paranoid<br>
+&nbsp; &nbsp; &nbsp; &nbsp;mode and hub calm to deactivate
+it.&nbsp; hub&nbsp; quit&nbsp; terminates&nbsp; the&nbsp;
+entire<br>
+&nbsp; &nbsp; &nbsp; &nbsp;iosrv&nbsp; and&nbsp; kills&nbsp;
+all&nbsp; reader and writer processes.&nbsp; hub debug and hub<br>
+&nbsp; &nbsp; &nbsp; &nbsp;shutup act to start and stop verbose
+debug output respectively.&nbsp; (Note:<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the&nbsp; logging&nbsp; information is
+not sent to the ioshell client, but rather<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to the location specified by the initial
+io server command.).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The low level hub commands are also
+supported. Each hub command&nbsp; begins<br>
+&nbsp; &nbsp; &nbsp; &nbsp;with&nbsp; the&nbsp; letter&nbsp; 'h',
+is followed by a numeric Hub identifier, then a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;single letter representing a&nbsp;
+verb,&nbsp; and&nbsp; then&nbsp; usually&nbsp; an&nbsp;
+additional<br>
+&nbsp; &nbsp; &nbsp; &nbsp;numeric&nbsp; parameter. The io and
+ioshell tools use these commands to per-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;form their actions.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h1t50<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from within an attached ioshell sets the
+sleeptime parameter of&nbsp; Hub&nbsp; 1<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to&nbsp; 50&nbsp; ms, which will occur
+twice per read cycle and at least once per<br>
+&nbsp; &nbsp; &nbsp; &nbsp;write cycle. See the examples section
+and source code for more details.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Verbs&nbsp; are: &nbsp; t: time, c:
+clear, s: start, o: output. e: err, i: input,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;f: freefd, k: killfd x: xit, v: view, y:
+kill rdproc, z:&nbsp; kill&nbsp; wrproc.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;All&nbsp; commands&nbsp; except&nbsp; c,
+x, and v take a 4th numeric parameter. Due to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ongoing development, a full
+specification of the 'h%d%c%d' Hub commands<br>
+&nbsp; &nbsp; &nbsp; &nbsp;will not be offered in this manpage.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The&nbsp; iosrv&nbsp; command&nbsp;
+is&nbsp; usually called from the io wrapper script. The<br>
+&nbsp; &nbsp; &nbsp; &nbsp;options that vary from those of the
+wrapper script are&nbsp; mostly&nbsp; experi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;mental debugging options. The -dhrs
+flags deactivate the default setup,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;turn off file descriptor preservation,
+turn off ramfs(4) and prevent&nbsp; a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/srv&nbsp; from&nbsp; being&nbsp;
+posted,&nbsp; respectively.&nbsp; Check&nbsp; the&nbsp;
+source&nbsp; code for<br>
+&nbsp; &nbsp; &nbsp; &nbsp;details.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;In theory, there is nothing preventing
+the iosrv&nbsp; pipes&nbsp; from&nbsp; carrying<br>
+&nbsp; &nbsp; &nbsp; &nbsp;any&nbsp; kind&nbsp; of&nbsp; data. A
+small amount of testing of remote control of GUI<br>
+&nbsp; &nbsp; &nbsp; &nbsp;apps indicates this is a fruitful area
+for experimentation, and in the-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ory&nbsp; multiple iosrv can be
+connected to create pipe topologies of arbi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;trary complexity involving multiple
+machines with the ability&nbsp; to&nbsp; con-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;nect and disconnect clients in real
+time.<br>
+<br>
+EXAMPLES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;For&nbsp; most users and purposes, io
+srvname used to both start and connect<br>
+&nbsp; &nbsp; &nbsp; &nbsp;to a given /srv (in combination with any
+needed network&nbsp; imports)&nbsp; will<br>
+&nbsp; &nbsp; &nbsp; &nbsp;be the primary mode of usage, along with
+remote # and attach # commands<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from within the attached ioshells. The
+concluding example of a manually<br>
+&nbsp; &nbsp; &nbsp; &nbsp;created set of connections is provided
+to demonstrate additional possi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;bilities for further development of the
+underlying iosrv core.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Start a session named aug1 and connect
+to it in the same window&nbsp; as&nbsp; it<br>
+&nbsp; &nbsp; &nbsp; &nbsp;was launched:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io -a aug1<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Connect a second client to that
+session:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io aug1<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Start another session named rc.2
+backgrounded but with non-verbose log-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ging written to the default logfile:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (host) io -l
+rc.2<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Connect to that rc session from a remote
+client. First, import the host<br>
+&nbsp; &nbsp; &nbsp; &nbsp;machine's /srv then connect and also
+clear the backscroll:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client) import
+-ac HOST /srv<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client) io rc.2
+zap<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;From &nbsp;within&nbsp; that&nbsp; rc,
+create another rc attached to the current iosrv<br>
+&nbsp; &nbsp; &nbsp; &nbsp;beginning on Hub 3 (the first
+available):<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client io:)
+remote 3<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;connect another client and switch to
+that rc:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client) io
+rc.2<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client io:)
+attach 3<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;switch back to the original rc:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client io:)
+attach 0<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;share an rc from the client machine back
+to the iosrv:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (client io:) local
+6<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;from inside a connected HOST machine
+ioshell&nbsp; connect&nbsp; to&nbsp; the&nbsp; new&nbsp; rc<br>
+&nbsp; &nbsp; &nbsp; &nbsp;hosted by the client:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (host io:) attach
+6<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The above series of commands
+demonstrates the basic principle of refer-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ring to multiple rc sessions within a
+single iosrv is that the&nbsp; number-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ing proceeds by threes, because each rc
+makes use of a set of the three<br>
+&nbsp; &nbsp; &nbsp; &nbsp;standard file descriptors, each of which
+uses&nbsp; one&nbsp; Hub.&nbsp; Leaving&nbsp; Hubs<br>
+&nbsp; &nbsp; &nbsp; &nbsp;unused&nbsp; in&nbsp; between&nbsp; rc
+trihub groupings is harmless apart from ineffi-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ciency, but overlapping multiple trihubs
+within the same numeric group-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ing will produce results that are either
+broken or awesomely nonconven-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tional depending on the user's
+perspective.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Create an iosrv that allows you to
+monitor dns requests:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io -c 'tail -f
+/sys/log/dns' io.dns<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The following examples demonstrate some
+of the internal control&nbsp; inter-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;face.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Start&nbsp; an&nbsp; iosrv&nbsp; with
+verbose logging and a local control console, and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;issue several commands to it:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io -i -v rc.3<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fear (set paranoid
+mode)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; h1v (view info on
+hub 1)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shutup (turn off
+debugging-level output)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Now connect a shell to the session with
+no io&nbsp; delay&nbsp; and&nbsp; issue&nbsp; 'hub'<br>
+&nbsp; &nbsp; &nbsp; &nbsp;commands to create a new set of usable
+multiplexed io pipes:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; io rc.3 fast
+(since paranoid mode was set, use 'fast')<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h3s3 (start
+new hub 3 with H3in3 as initial input)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h3o3 (add an
+output file H3out3 from Hub 3)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h4s4<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h404
+(similarly for Hub 4)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h5s5<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; hub h5e5 (Hub 5
+names output H5err5 for mnemonic)<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Now open a new window and connect a new
+rc to the new hubs:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mount -c /srv/rc.3
+/n/rc.3 &amp;&amp; cd /n/rc.3<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rc -i
+&lt;H3out3/data1 &gt;H4in4/data &gt;[2]H5in5/data &amp;<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;And finally connect to that persistent
+rc from a new client:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mount -c /srv/rc.3
+/n/rc.3 &amp;&amp; cd /n/rc.3<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ioshell H3in3/data
+H4out4/data1 H5err5/data1 ctl/data<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(Note&nbsp; that identical results could
+be obtained by issuing the commands<br>
+&nbsp; &nbsp; &nbsp; &nbsp;above directly to the control console
+similarly to the first&nbsp; group&nbsp; of<br>
+&nbsp; &nbsp; &nbsp; &nbsp;control commands shown.)<br>
+<br>
+SOURCE<br>
+&nbsp; &nbsp; &nbsp; &nbsp;sources/contrib/mycroftiv/iosrv.tgz<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;UNIX pipes, pipe(3) , srv(3) and
+aux/consolefs(4)<br>
+<br>
+BUGS<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Not all flags are sane in combination.
+The command parser is primitive.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Not all user initiated control actions
+are error checked. There are&nbsp; no<br>
+&nbsp; &nbsp; &nbsp; &nbsp;provided&nbsp; options&nbsp; for&nbsp;
+giving clients different levels of privilege to<br>
+&nbsp; &nbsp; &nbsp; &nbsp;control the session. Mental incapacity
+to grapple with the combinatoric<br>
+&nbsp; &nbsp; &nbsp; &nbsp;possibilities&nbsp; of
+higher-dimensional pipe topologies (see below). Large<br>
+&nbsp; &nbsp; &nbsp; &nbsp;amount of client connections and
+disconnections will produce many&nbsp; pro-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;cesses&nbsp; that&nbsp; may need manual
+pruning. Some of the semantics are ad-hoc<br>
+&nbsp; &nbsp; &nbsp; &nbsp;and users should be provided with more
+naming&nbsp; and&nbsp; numbering&nbsp; control.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Reinvention&nbsp; of&nbsp; the&nbsp;
+wheel&nbsp; in octagonal form. Parameters such as data<br>
+&nbsp; &nbsp; &nbsp; &nbsp;bucket size are compiled-in. The whole
+thing should probably&nbsp; implement<br>
+&nbsp; &nbsp; &nbsp; &nbsp;itself as a 9p fs rather than
+piggybacking on exportfs (4) and pipe (3)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;files.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;-<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;"Doug had for years and years, and he
+talked to&nbsp; us&nbsp; continually&nbsp; about<br>
+&nbsp; &nbsp; &nbsp; &nbsp;it,&nbsp; a&nbsp; notion&nbsp; of
+interconnecting computers in grids, and arrays, very<br>
+&nbsp; &nbsp; &nbsp; &nbsp;complex, and there were always problems
+in his proposals. That what you<br>
+&nbsp; &nbsp; &nbsp; &nbsp;would type would be linear and what he
+wanted was three-dimensional, n-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;dimensional...I mean he wanted just
+topological connection of&nbsp; programs<br>
+&nbsp; &nbsp; &nbsp; &nbsp;and&nbsp; to&nbsp; build&nbsp;
+programs&nbsp; with loops and and horrid things. He had such<br>
+&nbsp; &nbsp; &nbsp; &nbsp;grandiose ideas and we were saying,
+the&nbsp; complexity&nbsp; you're&nbsp; generating<br>
+&nbsp; &nbsp; &nbsp; &nbsp;just&nbsp; can't&nbsp; be&nbsp;
+fathomed.&nbsp; You don't sit down and you don't type these<br>
+&nbsp; &nbsp; &nbsp; &nbsp;kind of connections together. And he
+persisted with the grandiose ideas<br>
+&nbsp; &nbsp; &nbsp; &nbsp;where you get into Kirchoff's law
+problems...what happens if you have a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;feedback loop and every program doubles
+the number&nbsp; of&nbsp; characters,&nbsp; it<br>
+&nbsp; &nbsp; &nbsp; &nbsp;reads&nbsp; one and writes two? It's got
+to go somewhere - synchronization -<br>
+&nbsp; &nbsp; &nbsp; &nbsp;there's just no way to implement his
+ideas and we kept trying&nbsp; to&nbsp; pare<br>
+&nbsp; &nbsp; &nbsp; &nbsp;him&nbsp; down&nbsp; and&nbsp;
+weed&nbsp; him down and get something useful and distill it.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;What was needed, was real ideas...and
+there were&nbsp; constant&nbsp; discussions<br>
+&nbsp; &nbsp; &nbsp; &nbsp;all&nbsp; through&nbsp; this&nbsp;
+period, and it hit just one night, it just hit, and<br>
+&nbsp; &nbsp; &nbsp; &nbsp;they went in instantly."<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;~Ken Thompson on UNIX pipes' origins<br>
+<br>
+&nbsp; &nbsp; &nbsp;
+&nbsp;http://www.princeton.edu/~hos/mike/transcripts/thompson.htm<br>
+<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;IO(1)
+</body>
+</html>
