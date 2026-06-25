@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>DISPATCH(7)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+DISPATCH(7)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Miscellaneous
+Information Manual&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+DISPATCH(7)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;dispatch - PQ IRDB directory
+configuration file<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Dispatch&nbsp; files&nbsp; are&nbsp;
+used&nbsp; by&nbsp; the&nbsp; join&nbsp; module of pq(1) to access
+an<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Implicit Relational Database (IRDB)
+directory.&nbsp; A&nbsp; dispatch&nbsp; file&nbsp; con-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tains&nbsp; a&nbsp; list&nbsp; of&nbsp;
+module arguments, one per line.&nbsp; Argument words are<br>
+&nbsp; &nbsp; &nbsp; &nbsp;separated by white space.&nbsp; An open
+is attempted for each line&nbsp; in&nbsp; turn<br>
+&nbsp; &nbsp; &nbsp; &nbsp;until&nbsp; one&nbsp; succeeds,&nbsp;
+or&nbsp; the end of file is reached, in which case an<br>
+&nbsp; &nbsp; &nbsp; &nbsp;error is returned.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;See modules(7) for a description of join
+and module arguments.<br>
+<br>
+EXAMPLES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The following dispatch file describes
+relations for two local&nbsp; directo-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ries&nbsp; and&nbsp; a&nbsp;
+pointer&nbsp; to&nbsp; a&nbsp; host for attributes that can not be
+found<br>
+&nbsp; &nbsp; &nbsp; &nbsp;locally.&nbsp; The two local relations
+are in the&nbsp; directories&nbsp; /lib/pq/name<br>
+&nbsp; &nbsp; &nbsp; &nbsp;and /lib/pq/phone.&nbsp; Within those
+directories are and files that contain<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the values for the relation&nbsp;
+and&nbsp; the&nbsp; attributes&nbsp; for&nbsp; that&nbsp;
+relation,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;respectively.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&gt; +ssn first middle last street
+street2 city state zip<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ev /sys/src/cmd/pq/example/name<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&gt; +ssn number type<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ev /sys/src/cmd/pq/example/phone<br>
+&nbsp; &nbsp; &nbsp; &nbsp;opt call host.com<br>
+<br>
+FILES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/lib/pq/dispatch&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; default pq configuration file<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/sys/src/cmd/pq/example/dispatch<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;sample dispatch file<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;<a href="/1/pq.html" target=
+"_blank">pq(1)</a>, <a href="/2/pq.html" target="_blank">pq(2)</a>,
+<a href="/7/modules.html" target="_blank">modules(7)</a>.<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DISPATCH(7)
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>CONFIG.NT</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="/bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<h2>CONFIG.NT</h2>
+C:\&gt;TYPE WINDOWS\system32\CONFIG.NT<br>
+REM Windows MS-DOS Startup File<br>
+REM<br>
+REM CONFIG.SYS vs CONFIG.NT<br>
+REM CONFIG.SYS is not used to initialize the MS-DOS
+environment.<br>
+REM CONFIG.NT is used to initialize the MS-DOS environment unless
+a<br>
+REM different startup file is specified in an application's
+PIF.<br>
+REM<br>
+REM ECHOCONFIG<br>
+REM By default, no information is displayed when the MS-DOS
+environment<br>
+REM is initialized. To display CONFIG.NT/AUTOEXEC.NT information,
+add<br>
+REM the command echoconfig to CONFIG.NT or other startup file.<br>
+REM<br>
+REM NTCMDPROMPT<br>
+REM When you return to the command prompt from a TSR or while
+running an<br>
+REM MS-DOS-based application, Windows runs COMMAND.COM. This allows
+the<br>
+REM TSR to remain active. To run CMD.EXE, the Windows command
+prompt,<br>
+REM rather than COMMAND.COM, add the command ntcmdprompt to
+CONFIG.NT or<br>
+REM other startup file.<br>
+REM<br>
+REM DOSONLY<br>
+REM By default, you can start any type of application when
+running<br>
+REM COMMAND.COM. If you start an application other than an
+MS-DOS-based<br>
+REM application, any running TSR may be disrupted. To ensure that
+only<br>
+REM MS-DOS-based applications can be started, add the command
+dosonly to<br>
+REM CONFIG.NT or other startup file.<br>
+REM<br>
+REM EMM<br>
+REM You can use EMM command line to configure EMM(Expanded Memory
+Manager).<br>
+REM The syntax is:<br>
+REM<br>
+REM EMM = [A=AltRegSets] [B=BaseSegment] [RAM]<br>
+REM<br>
+REM &nbsp; &nbsp; AltRegSets<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; specifies the total Alternative
+Mapping Register Sets you<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; want the system to support. 1 &lt;=
+AltRegSets &lt;= 255. The<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; default value is 8.<br>
+REM &nbsp; &nbsp; BaseSegment<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; specifies the starting segment
+address in the Dos conventional<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; memory you want the system to
+allocate for EMM page frames.<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; The value must be given in
+Hexdecimal.<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; 0x1000 &lt;= BaseSegment &lt;=
+0x4000. The value is rounded down to<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; 16KB boundary. The default value is
+0x4000<br>
+REM &nbsp; &nbsp; RAM<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; specifies that the system should
+only allocate 64Kb address<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; space from the Upper Memory
+Block(UMB) area for EMM page frames<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; and leave the rests(if available)
+to be used by DOS to support<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; loadhigh and devicehigh commands.
+The system, by default, would<br>
+REM &nbsp; &nbsp; &nbsp; &nbsp; allocate all possible and available
+UMB for page frames.<br>
+REM<br>
+REM &nbsp; &nbsp; The EMM size is determined by pif file(either the
+one associated<br>
+REM &nbsp; &nbsp; with your application or _default.pif). If the
+size from PIF file<br>
+REM &nbsp; &nbsp; is zero, EMM will be disabled and the EMM line
+will be ignored.<br>
+REM<br>
+dos=high, umb<br>
+device=%SystemRoot%\system32\himem.sys<br>
+files=40<br>
+<br>
+C:\&gt;
+</body>
+</html>

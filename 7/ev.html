@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.7.28">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>ev(7)</title>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+<p align="right"><a href="../bio.html">bio</a> | <a href=
+"../index.html">home</a> | <a href="../mobile.html">mobile</a> | 
+<a href="../papers.html">papers</a> | <a href=
+"../videos.html">videos</a></p>
+<br>
+<br>
+ev(7)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+Miscellaneous Information Manual&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; ev(7)<br>
+<br>
+<br>
+<br>
+NAME<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ev - PQ IRDB database system<br>
+<br>
+DESCRIPTION<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Ev is a simple database system used for
+pq(1) Implicit Relational Data-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;base (IRDB) directory queries.&nbsp; An
+ev database consists of a data file,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;a&nbsp; proto&nbsp; file&nbsp;
+describing&nbsp; the&nbsp; contents of the data file and
+optional<br>
+&nbsp; &nbsp; &nbsp; &nbsp;index files for efficient database
+queries.&nbsp; The arguments to&nbsp; ev&nbsp; pro-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;vide&nbsp; the data and proto file
+names, the directory containing the index<br>
+&nbsp; &nbsp; &nbsp; &nbsp;files, and the database separator.&nbsp;
+See modules(7).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;An ev data file is a Unicode file
+composed of newline-terminated lines.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Each&nbsp; line&nbsp; in&nbsp; the data
+file represents a database record and contains<br>
+&nbsp; &nbsp; &nbsp; &nbsp;delimited, variable-length fields
+denoting database attributes.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Information describing the database
+attributes is&nbsp; stored&nbsp; in&nbsp; a&nbsp; proto<br>
+&nbsp; &nbsp; &nbsp; &nbsp;file and used to create the index files
+and to resolve runtime queries.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Lines in the proto file are newline
+terminated and have&nbsp; the&nbsp; following<br>
+&nbsp; &nbsp; &nbsp; &nbsp;tab- or space-separated fields:<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attribute name&nbsp; &nbsp; &nbsp;
+Name&nbsp; of&nbsp; attribute in the database.&nbsp; Cannot be
+the<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;string attribute or contain the
+equal sign&nbsp; charac-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ter (=).&nbsp; Must be less than
+15 characters.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;attribute address&nbsp; Position&nbsp;
+of&nbsp; the&nbsp; attribute&nbsp; in&nbsp; the&nbsp; data&nbsp;
+file.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Attributes are counted left to
+right starting&nbsp; with<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;field 1 and are separated by a
+character delimiter.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;See modules(7).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;primary length&nbsp; &nbsp; &nbsp;
+Length (in bytes) of entries in the&nbsp; primary&nbsp; index<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file.&nbsp; For attributes that
+use the numeric matching<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;algorithm, the attribute length
+must be at least as<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;large as the longest value.&nbsp;
+If index files are not<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;used, this is set to a period
+(.).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;secondary length&nbsp; &nbsp; Length (in
+bytes) of entries in the secondary index<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file. &nbsp;For attributes that
+use the numeric matching<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;algorithm, the attribute length
+must be at least as<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;large as the longest value.&nbsp;
+If index files are not<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;used, this is set to a period
+(.).<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;match &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; The match flag is a single&nbsp; character&nbsp;
+representing<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;the&nbsp; matching&nbsp;
+algorithm used for this attribute in<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;database queries.&nbsp; The
+possible values&nbsp; are&nbsp; listed<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;below&nbsp; under&nbsp;
+Match&nbsp; Type. &nbsp; The&nbsp; match flag may be<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;accompanied by zero or more of
+the Value Character-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;istics&nbsp; also listed
+below.&nbsp; The order of these one-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;character flags is not
+significant.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;multiple &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;Contains either a period (.), m, or m=x. &nbsp;
+Value&nbsp; m<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;denotes&nbsp; a multiple field.
+&nbsp;Value m=x signifies the<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;database attribute used to
+distinguish between&nbsp; the<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;main line in the data file
+(attribute=x) and auxil-<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;iary ones (attribute!=x).&nbsp;
+There can be at most one<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;attribute with value m=x per
+proto file.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;default index &nbsp; &nbsp; &nbsp; Index
+&nbsp;files &nbsp;are &nbsp;create&nbsp; by&nbsp; pqgen(1M)&nbsp;
+for those<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;attributes with default&nbsp;
+index&nbsp; flag&nbsp; equal&nbsp; to&nbsp; i.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Attributes with default index
+equal to a period (.)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;can also be used to query&nbsp;
+the&nbsp; database&nbsp; but&nbsp; with<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;worse&nbsp; performance.&nbsp;
+Attributes used frequently for<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;database queries should be
+indexed.<br>
+<br>
+&nbsp; &nbsp;Match Type<br>
+&nbsp; &nbsp; &nbsp; &nbsp;e &nbsp; &nbsp; &nbsp;Exact match.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;n &nbsp; &nbsp; &nbsp;Numeric match.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;p &nbsp; &nbsp; &nbsp;Prefix match.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;s &nbsp; &nbsp; &nbsp;Exact match unless
+argument ends with a star (*), in which&nbsp; case<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; prefix match.<br>
+<br>
+&nbsp; &nbsp;Value Characteristics<br>
+&nbsp; &nbsp; &nbsp; &nbsp;a &nbsp; &nbsp; &nbsp;Ignore
+non-alphanumerics.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;i &nbsp; &nbsp; &nbsp;Ignore case.<br>
+&nbsp; &nbsp; &nbsp; &nbsp;m &nbsp; &nbsp; &nbsp;Multiple&nbsp;
+entry&nbsp; match.&nbsp; If argument is empty, 1 or 2, retrieve<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; first, second or
+third record for query, respectively.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The order of the attributes as they
+appear in the proto file is signif-<br>
+&nbsp; &nbsp; &nbsp; &nbsp;icant.&nbsp; For database queries with
+two or more qualifiers, the attribute<br>
+&nbsp; &nbsp; &nbsp; &nbsp;that appears first in the proto file is
+used to perform the&nbsp; search&nbsp; of<br>
+&nbsp; &nbsp; &nbsp; &nbsp;the database.&nbsp; Attributes with
+index files are preferred.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;Index&nbsp; files,&nbsp; created&nbsp;
+by&nbsp; pqgen(1)&nbsp; using&nbsp; the&nbsp; data and proto
+files,<br>
+&nbsp; &nbsp; &nbsp; &nbsp;improve performance of database
+queries.&nbsp; Index files are arranged in a<br>
+&nbsp; &nbsp; &nbsp; &nbsp;multiway&nbsp; tree&nbsp; format&nbsp;
+to&nbsp; improve performance and limit the amount of<br>
+&nbsp; &nbsp; &nbsp; &nbsp;core memory needed.<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp;The C interface to ev can be seen in
+pq(2).<br>
+<br>
+FILES<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/lib/pq/dispatch&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; default pq configuration file<br>
+&nbsp; &nbsp; &nbsp; &nbsp;/sys/src/cmd/pq/example/dispatch<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;sample dispatch file<br>
+<br>
+SEE ALSO<br>
+&nbsp; &nbsp; &nbsp; &nbsp;<a href="/1/pq.html" target=
+"_blank">pq(1)</a>, <a href="/1/pq.html" target=
+"_blank">pqgen(1)</a>, <a href="/2/pq.html" target=
+"_blank">pq(2)</a>, <a href="/7/modules.html" target=
+"_blank">modules(7)</a>.<br>
+<br>
+<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;ev(7)
+</body>
+</html>
