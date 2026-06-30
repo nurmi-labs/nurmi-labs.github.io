@@ -156,8 +156,8 @@ acc<br>
 &nbsp; &nbsp; &nbsp; (let ((len (u8-list->uint (take l 2)))<br>
 &nbsp; &nbsp; &nbsp;(m (drop l 2)))<br>
 &nbsp;(loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp; (drop m len)<br>
-&nbsp; &nbsp; &nbsp; (cons (u8-list->string (take m len))<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(drop m len)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(cons (u8-list->string (take m len))<br>
 &nbsp; &nbsp; &nbsp; acc))))<br>
 &nbsp; &nbsp; &nbsp;((pair? (car fmt))<br>
 &nbsp; &nbsp; &nbsp; (let* ((count (u8-list->uint (take l (caar fmt))))<br>
@@ -171,7 +171,7 @@ acc<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(reduce + 0 (map string-length p)))))<br>
 &nbsp; &nbsp; &nbsp;((d)<br>
 &nbsp; &nbsp; &nbsp; (values (take m count)<br>
-&nbsp; &nbsp; &nbsp; count))<br>
+&nbsp; &nbsp; &nbsp; &nbsp;count))<br>
 &nbsp; &nbsp; &nbsp;(else<br>
 &nbsp; &nbsp; &nbsp; (values (reverse (unpack (make-list count (cdar fmt))<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; l))<br>
