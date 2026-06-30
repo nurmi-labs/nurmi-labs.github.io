@@ -34,7 +34,7 @@ bash-5.1$ cat 9p.scm<br>
 &nbsp; &nbsp;(TAuth&nbsp; &nbsp; 102 (2 4 s s))<br>
 &nbsp; &nbsp;(RAuth&nbsp; &nbsp; 103 (2 13))<br>
 &nbsp; &nbsp;(TAttach&nbsp; 104 (2 4 4 s s))&nbsp; ;x68<br>
-&nbsp; &nbsp;(RAttach&nbsp; &nbsp;105 (2 13))<br>
+&nbsp; &nbsp;(RAttach&nbsp; 105 (2 13))<br>
 &nbsp; &nbsp;(TError&nbsp; &nbsp;106 ())&nbsp; &nbsp;;illegal<br>
 &nbsp; &nbsp;(RError&nbsp; &nbsp;107 (2 s))<br>
 &nbsp; &nbsp;(TFlush&nbsp; &nbsp;108 (2 2))&nbsp; ;x6c<br>
@@ -45,7 +45,7 @@ bash-5.1$ cat 9p.scm<br>
 &nbsp; &nbsp;(ROpen&nbsp; &nbsp; 113 (2 13 4))<br>
 &nbsp; &nbsp;(TCreate&nbsp; 114 (2 4 s 4 1))<br>
 &nbsp; &nbsp;(RCreate&nbsp; 115 (2 13 4))<br>
-&nbsp; &nbsp;(TRead&nbsp; &nbsp; 116 (2 4 8 4))  ;x74<br>
+&nbsp; &nbsp;(TRead&nbsp; &nbsp; 116 (2 4 8 4))&nbsp; ;x74<br>
 &nbsp; &nbsp;(RRead&nbsp; &nbsp; 117 (2 (4 . d)))<br>
 &nbsp; &nbsp;(TWrite&nbsp; &nbsp;118 (2 4 8 (4 . s)))<br>
 &nbsp; &nbsp;(RRwrite&nbsp; 119 (2 4))<br>
@@ -94,7 +94,7 @@ acc<br>
 &nbsp;(map char->integer (string->list s)))<br>
 <br>
 (define (u8-list->string l)<br>
-&nbsp;(list->string (map integer->char l)))<br>
+ (list->string (map integer->char l)))<br>
 <br>
 <br>
 ;;<br>
@@ -125,11 +125,11 @@ acc<br>
 &nbsp; &nbsp; &nbsp; ;; followed by n types.<br>
 &nbsp; &nbsp; &nbsp; (let ((count (length (car args))))<br>
 &nbsp;(loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(cdr args)<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(append acc<br>
+&nbsp; &nbsp; &nbsp; (cdr args)<br>
+&nbsp; &nbsp; &nbsp; (append acc<br>
 &nbsp; &nbsp; &nbsp; &nbsp; (uint->u8-list (caar fmt) count)<br>
 &nbsp; &nbsp; &nbsp; &nbsp; (pack (make-list count (cdar fmt))<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(car args))))))<br>
+&nbsp; &nbsp; &nbsp; (car args))))))<br>
 &nbsp; &nbsp; &nbsp;((equal? (car fmt) 'n)<br>
 &nbsp; &nbsp; &nbsp; ;; XXX: total guess here<br>
 &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
@@ -156,8 +156,8 @@ acc<br>
 &nbsp; &nbsp; &nbsp; (let ((len (u8-list->uint (take l 2)))<br>
 &nbsp; &nbsp; &nbsp;(m (drop l 2)))<br>
 &nbsp;(loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(drop m len)<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(cons (u8-list->string (take m len))<br>
+&nbsp; &nbsp; &nbsp; (drop m len)<br>
+&nbsp; &nbsp; &nbsp; (cons (u8-list->string (take m len))<br>
 &nbsp; &nbsp; &nbsp; acc))))<br>
 &nbsp; &nbsp; &nbsp;((pair? (car fmt))<br>
 &nbsp; &nbsp; &nbsp; (let* ((count (u8-list->uint (take l (caar fmt))))<br>
@@ -171,11 +171,11 @@ acc<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(reduce + 0 (map string-length p)))))<br>
 &nbsp; &nbsp; &nbsp;((d)<br>
 &nbsp; &nbsp; &nbsp; (values (take m count)<br>
-&nbsp; &nbsp; &nbsp; &nbsp;count))<br>
+&nbsp; &nbsp; &nbsp; count))<br>
 &nbsp; &nbsp; &nbsp;(else<br>
 &nbsp; &nbsp; &nbsp; (values (reverse (unpack (make-list count (cdar fmt))<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; l))<br>
-&nbsp; &nbsp; &nbsp; &nbsp;(* count (cdar fmt)))))<br>
+&nbsp; &nbsp; &nbsp; (* count (cdar fmt)))))<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
 &nbsp; (drop m octets)<br>
 &nbsp; (cons p acc)))))<br>
@@ -222,7 +222,7 @@ acc<br>
 ;;<br>
 ;; You create one of these with (make-ixp read-u8-list write-u8-list).<br>
 ;; read-u8-list should one argument, count, and return a list of length<br>
-;; count of octets (u8s) read from the socket.  write-u8-list takes one<br>
+;; count of octets (u8s) read from the socket.&nbsp; write-u8-list takes one<br>
 ;; argument, l (a u8-list), and writes that to the socket.<br>
 ;;<br>
 (define-record-type ixp<br>
