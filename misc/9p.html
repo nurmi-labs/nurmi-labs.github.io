@@ -149,8 +149,8 @@ acc<br>
 &nbsp; &nbsp; &nbsp; acc)<br>
 &nbsp; &nbsp; &nbsp;((number? (car fmt))<br>
 &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp; (drop l (car fmt))<br>
-&nbsp; &nbsp; &nbsp; (cons (u8-list->uint (take l (car fmt)))<br>
+&nbsp; &nbsp; &nbsp;(drop l (car fmt))<br>
+&nbsp; &nbsp; &nbsp;(cons (u8-list->uint (take l (car fmt)))<br>
 &nbsp; &nbsp; acc)))<br>
 &nbsp; &nbsp; &nbsp;((equal? (car fmt) 's)<br>
 &nbsp; &nbsp; &nbsp; (let ((len (u8-list->uint (take l 2)))<br>
