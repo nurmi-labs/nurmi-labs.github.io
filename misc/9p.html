@@ -94,7 +94,7 @@ acc<br>
 &nbsp;(map char->integer (string->list s)))<br>
 <br>
 (define (u8-list->string l)<br>
- (list->string (map integer->char l)))<br>
+&nbsp;(list->string (map integer->char l)))<br>
 <br>
 <br>
 ;;<br>
@@ -125,11 +125,11 @@ acc<br>
 &nbsp; &nbsp; &nbsp; ;; followed by n types.<br>
 &nbsp; &nbsp; &nbsp; (let ((count (length (car args))))<br>
 &nbsp;(loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp; (cdr args)<br>
-&nbsp; &nbsp; &nbsp; (append acc<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(cdr args)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(append acc<br>
 &nbsp; &nbsp; &nbsp; &nbsp; (uint->u8-list (caar fmt) count)<br>
 &nbsp; &nbsp; &nbsp; &nbsp; (pack (make-list count (cdar fmt))<br>
-&nbsp; &nbsp; &nbsp; (car args))))))<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(car args))))))<br>
 &nbsp; &nbsp; &nbsp;((equal? (car fmt) 'n)<br>
 &nbsp; &nbsp; &nbsp; ;; XXX: total guess here<br>
 &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
@@ -149,8 +149,8 @@ acc<br>
 &nbsp; &nbsp; &nbsp; acc)<br>
 &nbsp; &nbsp; &nbsp;((number? (car fmt))<br>
 &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
-&nbsp; &nbsp; &nbsp;(drop l (car fmt))<br>
-&nbsp; &nbsp; &nbsp;(cons (u8-list->uint (take l (car fmt)))<br>
+&nbsp; &nbsp; &nbsp; (drop l (car fmt))<br>
+&nbsp; &nbsp; &nbsp; (cons (u8-list->uint (take l (car fmt)))<br>
 &nbsp; &nbsp; acc)))<br>
 &nbsp; &nbsp; &nbsp;((equal? (car fmt) 's)<br>
 &nbsp; &nbsp; &nbsp; (let ((len (u8-list->uint (take l 2)))<br>
@@ -175,7 +175,7 @@ acc<br>
 &nbsp; &nbsp; &nbsp;(else<br>
 &nbsp; &nbsp; &nbsp; (values (reverse (unpack (make-list count (cdar fmt))<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; l))<br>
-&nbsp; &nbsp; &nbsp; (* count (cdar fmt)))))<br>
+&nbsp; &nbsp; &nbsp; &nbsp;(* count (cdar fmt)))))<br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (loop (cdr fmt)<br>
 &nbsp; (drop m octets)<br>
 &nbsp; (cons p acc)))))<br>
