@@ -2,4 +2,6 @@
 
 Target space for code samples.
 
-Includes an error handler endpoint for [Nurmi Labs](https:\\nurmi-labs.blogspot.com).
+Includes an error handler endpoint.
+
+[Nurmi Labs](https:\\nurmi-labs.blogspot.com)
